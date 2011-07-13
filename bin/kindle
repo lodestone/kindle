@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+ 
+lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
+$LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
+
+require 'kindle'
+ 
+unless login = ARGV[0]
+  print "Enter your Amazon login:"
+  login = gets
+end
+print "Enter your password for Amazon (We don't store this)"
+passwd = gets
+
+begin
+  k = Kindle::Kindle.new(:login => login, :password => passwd)
+  puts "Getting your kindle highlights..."
+  highlights = k.get_kindle_highlights
+  puts highlights
+rescue => ex
+  puts "Crud, something went wrong..."
+end
