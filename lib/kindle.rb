@@ -31,7 +31,7 @@ module Kindle
     end
 
     def first_page
-      @agent.get(KINDLE_URL)
+      @current_page = @agent.get(KINDLE_URL)
     end
 
     def login(page=first_page)
@@ -39,7 +39,7 @@ module Kindle
       lp.forms.first.email = @login
       lp.forms.first.password = @password
       @current_page = lp.forms.first.submit
-      @current_page
+      @current_page.forms.first.submit
     end
 
     def fetch_highlights
