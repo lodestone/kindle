@@ -1,3 +1,7 @@
+# Version 0.0.3
+
+* Update headers in requests to get pages of highlights
+
 # Version 0.0.2
 
 * Use highline to read command line information

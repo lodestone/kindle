@@ -72,7 +72,8 @@ module Kindle
       upcoming_string = @current_upcoming.map{|l| "upcoming_asins[]=#{l}" } * '&'
       current_offset = @current_offset 
       url = "https://kindle.amazon.com/your_highlights/next_book?#{asins_string}&current_offset=#{@current_offset}&#{upcoming_string}"
-      @current_page = @agent.get(url)
+      ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => 'kindle.amazon.com' }
+      @current_page = @agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
       extract_highlights(@current_page)
       @current_page
     end
