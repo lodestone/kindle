@@ -65,9 +65,9 @@ module Kindle
       current_offset = @current_offset 
       url = "https://kindle.amazon.com/your_highlights/next_book?#{asins_string}&current_offset=#{@current_offset}&#{upcoming_string}"
       ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => 'kindle.amazon.com' }
-      current_page = @agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
-      extract_highlights(current_page)
-      current_page
+      page = @agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
+      extract_highlights page
+      page
     end
 
     def parse_highlight(hl)
