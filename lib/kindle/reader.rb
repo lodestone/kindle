@@ -47,7 +47,7 @@ module Kindle
 
     def extract_highlights(page, state)
       hls = (page/".yourHighlight")
-      asins = (page/".asin").collect{|asin| asin.text}
+      #asins = (page/".asin").collect{|asin| asin.text}
       highlights = []
       if hls.length > 0 
         state[:current_upcoming] = (page/".upcoming").first.text.split(',') rescue [] 
