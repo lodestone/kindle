@@ -78,9 +78,7 @@ module Kindle
     def get_kindle_highlights
       login
       fetch_highlights
-      highlights.map do |highlight|
-        "#{highlight.title} - #{highlight.author} - #{highlight.highlight}"
-      end
+      highlights
     end
 
   end

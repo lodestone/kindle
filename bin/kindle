@@ -16,7 +16,7 @@ begin
   k = Kindle::Kindle.new(:login => login, :password => passwd)
   puts "Getting your kindle highlights..."
   highlights = k.get_kindle_highlights
-  puts highlights
-rescue => ex
-  puts "Crud, something went wrong..."
+  highlights.each do |highlight|
+    puts "#{highlight.title} - #{highlight.author} - #{highlight.highlight}"
+  end
 end
