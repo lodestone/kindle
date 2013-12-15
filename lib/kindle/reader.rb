@@ -34,9 +34,11 @@ module Kindle
     def fetch_highlights page
       @asins = []
       page = page.link_with(:text => 'Your Highlights').click
-      until extract_highlights(page).length == 0 do
+      new_highlights = extract_highlights(page)
+      until new_highlights.length == 0 do
         results = next_highlights
         page = results[:page]
+        new_highlights = extract_highlights(page)
       end
     end
 
