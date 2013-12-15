@@ -46,10 +46,8 @@ module Kindle
     end
 
     def extract_highlights(page, state)
-      hls = (page/".yourHighlight")
-      #asins = (page/".asin").collect{|asin| asin.text}
       highlights = []
-      if hls.length > 0 
+      if (page/".yourHighlight").length > 0 
         state[:current_upcoming] = (page/".upcoming").first.text.split(',') rescue [] 
         state[:title] = (page/".yourHighlightsHeader .title").text.to_s.strip
         state[:author] = (page/".yourHighlightsHeader .author").text.to_s.strip
