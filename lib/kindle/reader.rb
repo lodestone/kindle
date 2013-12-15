@@ -6,7 +6,7 @@ module Kindle
     
     KINDLE_URL = 'http://kindle.amazon.com'
 
-    attr_reader :agent, :current_page, :asins, :highlights
+    attr_reader :agent, :asins, :highlights
 
     def initialize(options = {:login => nil, :password => nil})
       @highlights = [] 
@@ -28,16 +28,16 @@ module Kindle
       login_page = get_login_page
       login_page.forms.first.email    = @login
       login_page.forms.first.password = @password
-      @current_page = login_page.forms.first.submit
-      @current_page.forms.first.submit
+      page = login_page.forms.first.submit
+      page.forms.first.submit
     end
 
-    def fetch_highlights
+    def fetch_highlights page
       @asins = []
-      @current_page = @current_page.link_with(:text => 'Your Highlights').click
-      extract_highlights(@current_page)
+      page = page.link_with(:text => 'Your Highlights').click
+      extract_highlights page
       until @current_highlights.length == 0 do
-        next_highlights
+        page = next_highlights
       end
     end
 
@@ -46,9 +46,9 @@ module Kindle
       asins = (page/".asin").collect{|asin| asin.text}
       if hls.length > 0 
         @current_upcoming = (page/".upcoming").first.text.split(',') rescue [] 
-        @title  = (current_page/".yourHighlightsHeader .title").text.to_s.strip
-        @author = (current_page/".yourHighlightsHeader .author").text.to_s.strip
-        @current_offset = ((current_page/".yourHighlightsHeader").collect{|h| h.attributes['id'].value }).first.split('_').last
+        @title  = (page/".yourHighlightsHeader .title").text.to_s.strip
+        @author = (page/".yourHighlightsHeader .author").text.to_s.strip
+        @current_offset = ((page/".yourHighlightsHeader").collect{|h| h.attributes['id'].value }).first.split('_').last
         (page/".yourHighlight").each do |hl|
           highlight = parse_highlight(hl)
           @highlights << highlight
@@ -65,9 +65,9 @@ module Kindle
       current_offset = @current_offset 
       url = "https://kindle.amazon.com/your_highlights/next_book?#{asins_string}&current_offset=#{@current_offset}&#{upcoming_string}"
       ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => 'kindle.amazon.com' }
-      @current_page = @agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
-      extract_highlights(@current_page)
-      @current_page
+      current_page = @agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
+      extract_highlights(current_page)
+      current_page
     end
 
     def parse_highlight(hl)
@@ -77,8 +77,8 @@ module Kindle
     end
 
     def get_kindle_highlights
-      login
-      fetch_highlights
+      page = login
+      fetch_highlights page
       highlights
     end
 
