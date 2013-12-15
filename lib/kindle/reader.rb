@@ -10,13 +10,21 @@ module Kindle
       options.each_pair { |k,v| instance_variable_set("@#{k}", v) }
     end
 
-    def get_login_page state
-      page = state[:agent].get(KINDLE_URL)
+    def agent
+      return @agent if @agent
+      @agent = Mechanize.new
+      @agent.redirect_ok = true
+      @agent.user_agent_alias = 'Windows IE 7'
+      @agent
+    end
+
+    def get_login_page
+      page = agent.get(KINDLE_URL)
       page.link_with(:text => "Sign in").click
     end
 
     def login state
-      login_page = get_login_page state
+      login_page = get_login_page
       login_page.forms.first.email    = @login
       login_page.forms.first.password = @password
       page = login_page.forms.first.submit
@@ -63,7 +71,7 @@ module Kindle
       current_offset = state[:current_offset]
       url = "https://kindle.amazon.com/your_highlights/next_book?#{asins_string}&current_offset=#{state[:current_offset]}&#{upcoming_string}"
       ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => 'kindle.amazon.com' }
-      page = state[:agent].get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
+      page = agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
       highlights = extract_highlights page, state
       { page: page, highlights: highlights }
     end
@@ -79,10 +87,6 @@ module Kindle
       state = {}
       state[:current_offset] = 25
       state[:current_upcoming] = []
-      agent = Mechanize.new
-      agent.redirect_ok = true
-      agent.user_agent_alias = 'Windows IE 7'
-      state[:agent] = agent
 
       page = login state
       fetch_highlights page, state
