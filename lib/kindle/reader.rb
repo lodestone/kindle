@@ -23,7 +23,8 @@ module Kindle
       @current_page = @agent.get(KINDLE_URL)
     end
 
-    def login(page=first_page)
+    def login
+      page = first_page
       lp = page.link_with(:text => "Sign in").click
       lp.forms.first.email = @login
       lp.forms.first.password = @password
