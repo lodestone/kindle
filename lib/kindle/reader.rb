@@ -35,7 +35,8 @@ module Kindle
       @asins = []
       page = page.link_with(:text => 'Your Highlights').click
       until extract_highlights(page).length == 0 do
-        page = next_highlights
+        results = next_highlights
+        page = results[:page]
       end
     end
 
@@ -67,8 +68,8 @@ module Kindle
       url = "https://kindle.amazon.com/your_highlights/next_book?#{asins_string}&current_offset=#{@current_offset}&#{upcoming_string}"
       ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => 'kindle.amazon.com' }
       page = @agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
-      extract_highlights page
-      page
+      highlights = extract_highlights page
+      { page: page, highlights: highlights }
     end
 
     def parse_highlight(hl)
