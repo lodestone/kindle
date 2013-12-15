@@ -1,14 +1,8 @@
 require 'nokogiri'
 require 'mechanize'
+require_relative 'kindle/highlight'
 
 module Kindle
-
-  class Highlight
-    attr_reader :highlight, :asin, :title, :author
-    def initialize(highlight, asin, title, author)
-      @highlight, @asin, @title, @author = highlight, asin, title, author
-    end
-  end
 
   class Kindle
     include Nokogiri
