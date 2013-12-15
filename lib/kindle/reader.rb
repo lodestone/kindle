@@ -19,16 +19,16 @@ module Kindle
       @agent.user_agent_alias = 'Windows IE 7'
     end
 
-    def first_page
-      @current_page = @agent.get(KINDLE_URL)
+    def get_login_page
+      page = @agent.get(KINDLE_URL)
+      page.link_with(:text => "Sign in").click
     end
 
     def login
-      page = first_page
-      lp = page.link_with(:text => "Sign in").click
-      lp.forms.first.email = @login
-      lp.forms.first.password = @password
-      @current_page = lp.forms.first.submit
+      login_page = get_login_page
+      login_page.forms.first.email    = @login
+      login_page.forms.first.password = @password
+      @current_page = login_page.forms.first.submit
       @current_page.forms.first.submit
     end
 
