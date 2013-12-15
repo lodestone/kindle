@@ -16,9 +16,7 @@ module Kindle
       @current_offset = 25
       @current_highlights = 1
       @current_upcoming = []
-      options.each_pair do |k,v|
-        instance_variable_set("@#{k}", v)
-      end
+      options.each_pair { |k,v| instance_variable_set("@#{k}", v) }
       @agent = Mechanize.new
       @agent.redirect_ok = true
       @agent.user_agent_alias = 'Windows IE 7'
