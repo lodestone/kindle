@@ -6,10 +6,9 @@ module Kindle
     
     KINDLE_URL = 'http://kindle.amazon.com'
 
-    attr_reader :agent, :asins, :highlights
+    attr_reader :agent, :asins
 
     def initialize(options = {:login => nil, :password => nil})
-      @highlights = [] 
       @current_offset = 25
       @current_upcoming = []
       options.each_pair { |k,v| instance_variable_set("@#{k}", v) }
@@ -35,11 +34,14 @@ module Kindle
       @asins = []
       page = page.link_with(:text => 'Your Highlights').click
       new_highlights = extract_highlights(page)
+      highlights = []
       until new_highlights.length == 0 do
+        highlights << new_highlights
         results = next_highlights
         page = results[:page]
         new_highlights = extract_highlights(page)
       end
+      highlights.flatten
     end
 
     def extract_highlights(page)
@@ -54,7 +56,6 @@ module Kindle
         (page/".yourHighlight").each do |hl|
           highlight = parse_highlight(hl)
           highlights << highlight
-          @highlights << highlight
           if !@asins.include?(highlight.asin)
             @asins << highlight.asin unless @asins.include?(highlight.asin)
           end
@@ -83,7 +84,6 @@ module Kindle
     def get_kindle_highlights
       page = login
       fetch_highlights page
-      highlights
     end
 
   end
