@@ -11,7 +11,6 @@ module Kindle
     def initialize(options = {:login => nil, :password => nil})
       @highlights = [] 
       @current_offset = 25
-      @current_highlights = 1
       @current_upcoming = []
       options.each_pair { |k,v| instance_variable_set("@#{k}", v) }
       @agent = Mechanize.new
@@ -36,14 +35,15 @@ module Kindle
       @asins = []
       page = page.link_with(:text => 'Your Highlights').click
       extract_highlights page
-      until @current_highlights.length == 0 do
+      until extract_highlights(page).length == 0 do
         page = next_highlights
       end
     end
 
     def extract_highlights(page)
-      @current_highlights = hls = (page/".yourHighlight")
+      hls = (page/".yourHighlight")
       asins = (page/".asin").collect{|asin| asin.text}
+      highlights = []
       if hls.length > 0 
         @current_upcoming = (page/".upcoming").first.text.split(',') rescue [] 
         @title  = (page/".yourHighlightsHeader .title").text.to_s.strip
@@ -51,12 +51,14 @@ module Kindle
         @current_offset = ((page/".yourHighlightsHeader").collect{|h| h.attributes['id'].value }).first.split('_').last
         (page/".yourHighlight").each do |hl|
           highlight = parse_highlight(hl)
+          highlights << highlight
           @highlights << highlight
           if !@asins.include?(highlight.asin)
             @asins << highlight.asin unless @asins.include?(highlight.asin)
           end
         end
       end
+      highlights
     end
 
     def next_highlights
