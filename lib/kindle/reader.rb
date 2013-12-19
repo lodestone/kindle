@@ -24,22 +24,26 @@ module Kindle
     end
 
     def login state
-      login_page = get_login_page
-      login_page.forms.first.email    = @login
-      login_page.forms.first.password = @password
-      page = login_page.forms.first.submit
+      login_form = get_login_page.forms.first
+      login_form.email    = @login
+      login_form.password = @password
+
+      page = login_form.submit
       page.forms.first.submit
     end
 
     def fetch_highlights page, state
       state[:asins] = []
       page = page.link_with(:text => 'Your Highlights').click
-      new_highlights = extract_highlights(page, state)
+
       highlights = []
+
+      new_highlights = extract_highlights(page, state)
       until new_highlights.length == 0 do
+
         highlights << new_highlights
-        results = next_highlights state
-        page = results[:page]
+        page = next_highlights(state)[:page]
+
         new_highlights = extract_highlights(page, state)
       end
       highlights.flatten
