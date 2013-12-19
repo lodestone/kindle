@@ -23,7 +23,7 @@ module Kindle
       page.link_with(:text => "Sign in").click
     end
 
-    def login state
+    def login
       login_form = get_login_page.forms.first
       login_form.email    = @login
       login_form.password = @password
@@ -87,7 +87,7 @@ module Kindle
                 current_upcoming: []
               }
 
-      page = login state
+      page = login
       fetch_highlights page, state
     end
 
