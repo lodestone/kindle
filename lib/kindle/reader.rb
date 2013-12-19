@@ -38,6 +38,7 @@ module Kindle
 
       highlights = []
 
+      initialize_state_with_page state, page
       new_highlights = extract_highlights_from page, state
       until new_highlights.length == 0 do
 
@@ -51,11 +52,11 @@ module Kindle
 
     def extract_highlights_from page, state
       return [] if (page/".yourHighlight").length == 0
-      initialize_state_with_page state, page
       (page/".yourHighlight").map { |hl| parse_highlight(hl, state) }
     end
 
     def initialize_state_with_page state, page
+      return if (page/".yourHighlight").length == 0
       state[:current_upcoming] = (page/".upcoming").first.text.split(',') rescue [] 
       state[:title] = (page/".yourHighlightsHeader .title").text.to_s.strip
       state[:author] = (page/".yourHighlightsHeader .author").text.to_s.strip
@@ -67,7 +68,11 @@ module Kindle
       upcoming_string = state[:current_upcoming].map { |l| "upcoming_asins[]=#{l}" } * '&'
       url = "https://kindle.amazon.com/your_highlights/next_book?#{asins_string}&current_offset=#{state[:current_offset]}&#{upcoming_string}"
       ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => 'kindle.amazon.com' }
-      agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
+      page = agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
+
+      initialize_state_with_page state, page
+
+      page
     end
 
     def parse_highlight(hl, state)
