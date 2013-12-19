@@ -51,11 +51,15 @@ module Kindle
 
     def extract_highlights_from page, state
       return [] if (page/".yourHighlight").length == 0
+      initialize_state_with_page state, page
+      (page/".yourHighlight").map { |hl| parse_highlight(hl, state) }
+    end
+
+    def initialize_state_with_page state, page
       state[:current_upcoming] = (page/".upcoming").first.text.split(',') rescue [] 
       state[:title] = (page/".yourHighlightsHeader .title").text.to_s.strip
       state[:author] = (page/".yourHighlightsHeader .author").text.to_s.strip
       state[:current_offset] = ((page/".yourHighlightsHeader").collect{|h| h.attributes['id'].value }).first.split('_').last
-      (page/".yourHighlight").map { |hl| parse_highlight(hl, state) }
     end
 
     def get_the_next_page state, previously_extracted_highlights = []
