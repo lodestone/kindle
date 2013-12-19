@@ -10,6 +10,18 @@ module Kindle
       options.each_pair { |k,v| instance_variable_set("@#{k}", v) }
     end
 
+    def get_kindle_highlights
+      state = {
+                current_offset:   25,
+                current_upcoming: []
+              }
+
+      page = login
+      fetch_highlights page, state
+    end
+
+    private
+
     def agent
       return @agent if @agent
       @agent = Mechanize.new
@@ -79,17 +91,6 @@ module Kindle
       highlight = (hl/".highlight").text
       asin      = (hl/".asin").text
       Highlight.new(highlight, asin, state[:title], state[:author])
-    end
-
-    def get_kindle_highlights
-
-      state = {
-                current_offset:   25,
-                current_upcoming: []
-              }
-
-      page = login
-      fetch_highlights page, state
     end
 
   end
