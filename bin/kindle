@@ -19,4 +19,5 @@ begin
   highlights.each do |highlight|
     puts "#{highlight.title} - #{highlight.author} - #{highlight.highlight}"
   end
+  p highlights.count
 end
