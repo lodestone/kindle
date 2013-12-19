@@ -42,7 +42,7 @@ module Kindle
       until new_highlights.length == 0 do
 
         highlights << new_highlights
-        page = next_bits_of_data(state, highlights.flatten)[:page]
+        page = get_the_next_page state, highlights.flatten
 
         new_highlights = extract_highlights_from page, state
       end
@@ -60,14 +60,12 @@ module Kindle
       end
     end
 
-    def next_bits_of_data state, previously_extracted_highlights = []
+    def get_the_next_page state, previously_extracted_highlights = []
       asins_string    = previously_extracted_highlights.map { |h| "used_asins[]=#{h.asin}" } * '&'
       upcoming_string = state[:current_upcoming].map { |l| "upcoming_asins[]=#{l}" } * '&'
       url = "https://kindle.amazon.com/your_highlights/next_book?#{asins_string}&current_offset=#{state[:current_offset]}&#{upcoming_string}"
       ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => 'kindle.amazon.com' }
-      page = agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
-      highlights = extract_highlights_from page, state
-      { page: page, highlights: highlights }
+      agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
     end
 
     def parse_highlight(hl, state)
