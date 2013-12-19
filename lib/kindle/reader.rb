@@ -61,9 +61,8 @@ module Kindle
     end
 
     def next_highlights state
-      asins_string = state[:asins].map{|l| "used_asins[]=#{l}" } * '&'
-      upcoming_string = state[:current_upcoming].map{|l| "upcoming_asins[]=#{l}" } * '&'
-      current_offset = state[:current_offset]
+      asins_string    = state[:asins].map { |l| "used_asins[]=#{l}" } * '&'
+      upcoming_string = state[:current_upcoming].map { |l| "upcoming_asins[]=#{l}" } * '&'
       url = "https://kindle.amazon.com/your_highlights/next_book?#{asins_string}&current_offset=#{state[:current_offset]}&#{upcoming_string}"
       ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => 'kindle.amazon.com' }
       page = agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
