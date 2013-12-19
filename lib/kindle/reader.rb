@@ -55,9 +55,7 @@ module Kindle
       state[:title] = (page/".yourHighlightsHeader .title").text.to_s.strip
       state[:author] = (page/".yourHighlightsHeader .author").text.to_s.strip
       state[:current_offset] = ((page/".yourHighlightsHeader").collect{|h| h.attributes['id'].value }).first.split('_').last
-      (page/".yourHighlight").map do |hl|
-        parse_highlight(hl, state)
-      end
+      (page/".yourHighlight").map { |hl| parse_highlight(hl, state) }
     end
 
     def get_the_next_page state, previously_extracted_highlights = []
