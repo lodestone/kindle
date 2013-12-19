@@ -19,5 +19,6 @@ begin
   highlights.each do |highlight|
     puts "#{highlight.title} - #{highlight.author} - #{highlight.highlight}"
   end
-  p highlights.count
+rescue => ex
+  puts "Crud, something went wrong..."
 end
