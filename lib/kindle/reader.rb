@@ -79,9 +79,10 @@ module Kindle
 
     def get_kindle_highlights
 
-      state = {}
-      state[:current_offset] = 25
-      state[:current_upcoming] = []
+      state = {
+                current_offset:   25,
+                current_upcoming: []
+              }
 
       page = login state
       fetch_highlights page, state
