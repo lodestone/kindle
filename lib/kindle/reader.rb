@@ -45,7 +45,6 @@ module Kindle
     end
 
     def fetch_highlights page, state
-      state[:asins] = []
       page = get_the_first_highlight_page_from page, state
 
       highlights = []
