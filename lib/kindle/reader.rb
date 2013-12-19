@@ -46,11 +46,10 @@ module Kindle
 
     def fetch_highlights page, state
       state[:asins] = []
-      page = page.link_with(:text => 'Your Highlights').click
+      page = get_the_first_highlight_page_from page, state
 
       highlights = []
 
-      initialize_state_with_page state, page
       new_highlights = extract_highlights_from page, state
       until new_highlights.length == 0 do
 
@@ -60,6 +59,12 @@ module Kindle
         new_highlights = extract_highlights_from page, state
       end
       highlights.flatten
+    end
+
+    def get_the_first_highlight_page_from page, state
+      page = page.link_with(:text => 'Your Highlights').click
+      initialize_state_with_page state, page
+      page
     end
 
     def extract_highlights_from page, state
