@@ -5,15 +5,15 @@ require_relative 'kindle/reader'
 
 module Kindle
 
-  class Kindle
+  class Highlights
 
     def initialize(options = {})
       options.each { |k,v| instance_variable_set("@#{k}", v) }
     end
 
-    def get_kindle_highlights
-      reader = Reader.new(login: @login, password: @password)
-      reader.get_kindle_highlights
+    def fetch_highlights
+      parser = HighlightsParser.new(login: @login, password: @password)
+      parser.get_highlights
     end
 
   end

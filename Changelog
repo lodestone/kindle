@@ -1,3 +1,8 @@
+# Version 0.1.0
+
+* Confirm the script still works as of 2014-04-10
+* Make the default command line output semi-colon delimited
+
 # Version 0.0.3
 
 * Update headers in requests to get pages of highlights

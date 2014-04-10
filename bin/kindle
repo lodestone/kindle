@@ -1,25 +1,21 @@
 #!/usr/bin/env ruby
- 
-
-# lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
-# $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 
 require_relative "../lib/kindle"
-# require 'kindle'
 require 'highline/import'
-
 
 login = ask("Enter your Amazon.com username:  ") { |q| q.echo = true } unless login = ARGV[0]
 passwd = ask("Enter your Amazon.com password (This is not stored):  ") { |q| q.echo = "*" }
 
 begin
-  k = Kindle::Kindle.new(:login => login, :password => passwd)
+  k = Kindle::Highlights.new(:login => login, :password => passwd)
   puts "Getting your kindle highlights..."
   highlights = k.get_kindle_highlights # TODO: Pass in something to bide our time
+  # TODO: Multiple output formats. CSV, JSON, Pretty, HTML?
   highlights.each do |highlight|
     puts "#{highlight.asin};#{highlight.title};#{highlight.author};#{highlight.highlight}"
   end
 rescue => ex
+  # TODO Actually handle this!
   puts ex
   puts "Crud, something went wrong..."
 end

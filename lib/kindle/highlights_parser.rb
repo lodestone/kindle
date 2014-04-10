@@ -1,6 +1,6 @@
 module Kindle
 
-  class Reader
+  class HighlightsParser
 
     include Nokogiri
     
@@ -10,7 +10,7 @@ module Kindle
       options.each_pair { |k,v| instance_variable_set("@#{k}", v) }
     end
 
-    def get_kindle_highlights(args)
+    def get_highlights(args)
       state = {
                 current_offset:   25,
                 current_upcoming: []
