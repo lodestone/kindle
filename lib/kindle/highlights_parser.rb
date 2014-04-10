@@ -10,7 +10,7 @@ module Kindle
       options.each_pair { |k,v| instance_variable_set("@#{k}", v) }
     end
 
-    def get_highlights(args)
+    def get_highlights
       state = {
                 current_offset:   25,
                 current_upcoming: []
@@ -93,9 +93,10 @@ module Kindle
     end
 
     def parse_highlight(hl, state)
-      highlight = (hl/".highlight").text
-      asin      = (hl/".asin").text
-      Highlight.new(highlight, asin, state[:title], state[:author])
+      highlight_id = hl.xpath('//*[@id="annotation_id"]').first["value"]
+      highlight    = (hl/".highlight").text
+      asin         = (hl/".asin").text
+      Highlight.new(highlight_id, highlight, asin, state[:title], state[:author])
     end
 
   end
