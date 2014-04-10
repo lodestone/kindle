@@ -1,7 +1,7 @@
 require 'nokogiri'
 require 'mechanize'
 require_relative 'kindle/highlight'
-require_relative 'kindle/reader'
+require_relative 'kindle/highlights_parser'
 
 module Kindle
 
