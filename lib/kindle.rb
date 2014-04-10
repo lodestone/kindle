@@ -7,10 +7,8 @@ module Kindle
 
   class Kindle
 
-    include Nokogiri
-    
     def initialize(options = {})
-      options.each_pair { |k,v| instance_variable_set("@#{k}", v) }
+      options.each { |k,v| instance_variable_set("@#{k}", v) }
     end
 
     def get_kindle_highlights

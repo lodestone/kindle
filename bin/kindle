@@ -1,24 +1,25 @@
 #!/usr/bin/env ruby
  
-lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
-$LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 
-require 'kindle'
+# lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
+# $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
+
+require_relative "../lib/kindle"
+# require 'kindle'
 require 'highline/import'
 
 
-unless login = ARGV[0]
-  login = ask("Enter your username:  ") { |q| q.echo = true }
-end
-passwd = ask("Enter your password (This is not stored):  ") { |q| q.echo = "*" }
+login = ask("Enter your Amazon.com username:  ") { |q| q.echo = true } unless login = ARGV[0]
+passwd = ask("Enter your Amazon.com password (This is not stored):  ") { |q| q.echo = "*" }
 
 begin
   k = Kindle::Kindle.new(:login => login, :password => passwd)
   puts "Getting your kindle highlights..."
-  highlights = k.get_kindle_highlights
+  highlights = k.get_kindle_highlights # TODO: Pass in something to bide our time
   highlights.each do |highlight|
-    puts "#{highlight.title} - #{highlight.author} - #{highlight.highlight}"
+    puts "#{highlight.asin};#{highlight.title};#{highlight.author};#{highlight.highlight}"
   end
 rescue => ex
+  puts ex
   puts "Crud, something went wrong..."
 end
