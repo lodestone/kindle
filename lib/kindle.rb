@@ -12,8 +12,7 @@ module Kindle
     end
 
     def fetch_highlights
-      parser = HighlightsParser.new(login: @login, password: @password)
-      parser.get_highlights
+      HighlightsParser.new(login: @login, password: @password).get_highlights
     end
 
   end

@@ -32,7 +32,7 @@ module Kindle
 
     def get_login_page
       page = agent.get(KINDLE_URL)
-      page.link_with(:text => "Sign in").click
+      page.link_with(href: "https://kindle.amazon.com/login").click
     end
 
     def login
