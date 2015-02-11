@@ -21,4 +21,5 @@ Gem::Specification.new do |s|
   s.add_dependency "nokogiri"
   s.add_dependency "highline"
   s.add_dependency "mechanize"
+  s.add_dependency "dotenv"
 end

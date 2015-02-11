@@ -1,3 +1,5 @@
+require 'dotenv'
+Dotenv.load
 require 'nokogiri'
 require 'mechanize'
 require_relative 'kindle/highlight'
