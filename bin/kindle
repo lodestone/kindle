@@ -3,7 +3,12 @@
 require_relative "../lib/kindle"
 require 'highline/import'
 
-login = ask("Enter your Amazon.com username:  ") { |q| q.echo = true } unless login = ARGV[0]
+login = if amazon_username = ENV['AMAZON_USERNAME']
+  puts "Using Amazon.com username: #{amazon_username}"
+  amazon_username
+else
+  ask("Enter your Amazon.com username:  ") { |q| q.echo = true } unless login = ARGV[0]
+end
 passwd = ask("Enter your Amazon.com password (This is not stored):  ") { |q| q.echo = "*" }
 
 begin
