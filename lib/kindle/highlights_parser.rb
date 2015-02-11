@@ -3,7 +3,7 @@ module Kindle
   class HighlightsParser
 
     include Nokogiri
-    
+
     KINDLE_URL = 'http://kindle.amazon.com'
 
     def initialize(options = {:login => nil, :password => nil})
@@ -73,7 +73,7 @@ module Kindle
 
     def initialize_state_with_page(state, page)
       return if (page/".yourHighlight").length == 0
-      state[:current_upcoming] = (page/".upcoming").first.text.split(',') rescue [] 
+      state[:current_upcoming] = (page/".upcoming").first.text.split(',') rescue []
       state[:title] = (page/".yourHighlightsHeader .title").text.to_s.strip
       state[:author] = (page/".yourHighlightsHeader .author").text.to_s.strip
       state[:current_offset] = ((page/".yourHighlightsHeader").collect{|h| h.attributes['id'].value }).first.split('_').last
