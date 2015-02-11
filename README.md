@@ -20,6 +20,12 @@ And then, change your username `AMAZON_USERNAME` in _.env_
 
 Add `KINDLE_DOMAIN=amazon.co.jp` to _.env_ (Example: Japanese site)
 
+### Limit the count of fetching
+
+Fetching all your highlights could take time. You can limit the count of fetching.
+
+Add `FETCH_COUNT_LIMIT=5` to _.env_
+
 ## Other usage and license
 
 Hastily thrown together but incredibly useful since Amazon does not provide an API for kindle highlights. Please use this however you would like. This is licensed under MIT license.
