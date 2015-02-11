@@ -16,6 +16,10 @@ This little application will fetch a list of all your highlights from your kindl
 
 And then, change your username `AMAZON_USERNAME` in _.env_
 
+### Fetch highlights of different domain
+
+Add `KINDLE_DOMAIN=amazon.co.jp` to _.env_ (Example: Japanese site)
+
 ## Other usage and license
 
 Hastily thrown together but incredibly useful since Amazon does not provide an API for kindle highlights. Please use this however you would like. This is licensed under MIT license.

@@ -4,7 +4,7 @@ module Kindle
 
     include Nokogiri
 
-    KINDLE_DOMAIN = 'amazon.com'
+    KINDLE_DOMAIN = ENV['KINDLE_DOMAIN'] || 'amazon.com'
     KINDLE_URL = "http://kindle.#{KINDLE_DOMAIN}"
     KINDLE_HTTPS_URL = "https://kindle.#{KINDLE_DOMAIN}"
 
