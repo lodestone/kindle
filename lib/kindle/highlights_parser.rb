@@ -10,6 +10,7 @@ module Kindle
 
     def initialize(options = {:login => nil, :password => nil})
       options.each_pair { |k,v| instance_variable_set("@#{k}", v) }
+      @fetch_count = 1
     end
 
     def get_highlights
@@ -48,16 +49,13 @@ module Kindle
 
     def fetch_highlights(page, state)
       page = get_the_first_highlight_page_from(page, state)
+      highlights = extract_highlights_from(page, state)
 
-      highlights = []
-
-      new_highlights = extract_highlights_from(page, state)
-
-      until new_highlights.length == 0 do
-        highlights << new_highlights
+      begin
         page = get_the_next_page(state, highlights.flatten)
         new_highlights = extract_highlights_from(page, state)
-      end
+        highlights << new_highlights
+      end until new_highlights.length == 0 || reach_fetch_count_limit?
 
       highlights.flatten
     end
@@ -88,6 +86,7 @@ module Kindle
       url = "#{KINDLE_HTTPS_URL}/your_highlights/next_book?#{asins_string}&current_offset=#{state[:current_offset]}&#{upcoming_string}"
       ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => "kindle.#{KINDLE_DOMAIN}" }
       page = agent.get(url,[],"#{KINDLE_HTTPS_URL}/your_highlight", ajax_headers)
+      increment_fetch_count
 
       initialize_state_with_page state, page
 
@@ -99,6 +98,15 @@ module Kindle
       highlight    = (hl/".highlight").text
       asin         = (hl/".asin").text
       Highlight.new(highlight_id, highlight, asin, state[:title], state[:author])
+    end
+
+    def increment_fetch_count
+      @fetch_count += 1
+    end
+
+    def reach_fetch_count_limit?
+      return false unless ENV['FETCH_COUNT_LIMIT']
+      @fetch_count >= ENV['FETCH_COUNT_LIMIT'].to_i
     end
 
   end
