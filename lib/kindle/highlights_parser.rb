@@ -1,10 +1,14 @@
+require 'nokogiri'
+require 'mechanize'
+
 module Kindle
 
   class HighlightsParser
 
     include Nokogiri
 
-    KINDLE_DOMAIN = ENV['KINDLE_DOMAIN'] || 'amazon.com'
+    p Kindle::Settings
+    KINDLE_DOMAIN = Kindle::Settings.amazon_kindle_domain || 'amazon.com'
     KINDLE_URL = "http://kindle.#{KINDLE_DOMAIN}"
     KINDLE_HTTPS_URL = "https://kindle.#{KINDLE_DOMAIN}"
 
@@ -105,11 +109,10 @@ module Kindle
     end
 
     def reach_fetch_count_limit?
-      return false unless ENV['FETCH_COUNT_LIMIT']
-      @fetch_count >= ENV['FETCH_COUNT_LIMIT'].to_i
+      return false unless Kindle::Settings.highlights_limit
+      @fetch_count >= Kindle::Settings.highlights_limit.to_i
     end
 
   end
 
 end
-
