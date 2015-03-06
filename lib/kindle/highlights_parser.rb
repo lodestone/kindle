@@ -4,7 +4,9 @@ module Kindle
 
     include Nokogiri
 
-    KINDLE_URL = 'http://kindle.amazon.com'
+    KINDLE_DOMAIN = ENV['KINDLE_DOMAIN'] || 'amazon.com'
+    KINDLE_URL = "http://kindle.#{KINDLE_DOMAIN}"
+    KINDLE_HTTPS_URL = "https://kindle.#{KINDLE_DOMAIN}"
 
     def initialize(options = {:login => nil, :password => nil})
       options.each_pair { |k,v| instance_variable_set("@#{k}", v) }
@@ -32,7 +34,7 @@ module Kindle
 
     def get_login_page
       page = agent.get(KINDLE_URL)
-      page.link_with(href: "https://kindle.amazon.com/login").click
+      page.link_with(href: "#{KINDLE_HTTPS_URL}/login").click
     end
 
     def login
@@ -83,9 +85,9 @@ module Kindle
       asins           = previously_extracted_highlights.map(&:asin).uniq
       asins_string    = asins.collect { |asin| "used_asins[]=#{asin}" } * '&'
       upcoming_string = state[:current_upcoming].map { |l| "upcoming_asins[]=#{l}" } * '&'
-      url = "https://kindle.amazon.com/your_highlights/next_book?#{asins_string}&current_offset=#{state[:current_offset]}&#{upcoming_string}"
-      ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => 'kindle.amazon.com' }
-      page = agent.get(url,[],'https://kindle.amazon.com/your_highlight', ajax_headers)
+      url = "#{KINDLE_HTTPS_URL}/your_highlights/next_book?#{asins_string}&current_offset=#{state[:current_offset]}&#{upcoming_string}"
+      ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => "kindle.#{KINDLE_DOMAIN}" }
+      page = agent.get(url,[],"#{KINDLE_HTTPS_URL}/your_highlight", ajax_headers)
 
       initialize_state_with_page state, page
 
