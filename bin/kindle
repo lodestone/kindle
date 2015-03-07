@@ -3,24 +3,24 @@
 require_relative "../lib/kindle"
 require 'highline/import'
 
-kindle = Kindle::Account.new
-
 puts ">> Kindle Highlights Fetcher::::::::::::::::::::::::::::::::::::::::"
-
+kindle = Kindle::Account.new
 login = kindle.settings.username
+
 if login
-  puts "Using Amazon.com username: #{login}"
+  puts "Using Amazon username: #{login}"
 else
-  ask("Enter your Amazon.com username:  ") { |q| q.echo = true } unless login = ARGV[0]
+  ask("Enter your Amazon username:  ") { |q| q.echo = true } unless login = ARGV[0]
 end
-passwd = ask("Enter your Amazon.com password (This is not stored):  ") { |q| q.echo = "•" }
+passwd = ask("Enter your Amazon password (This is not stored):  ") { |q| q.echo = "•" }
 
 begin
   kindle.login = login
   kindle.password = passwd
   k = kindle.highlights
   puts "Getting your kindle highlights..."
-  highlights = k.fetch_highlights # TODO: Pass in something to bide our time
+  highlights = k.fetch_highlights
+  # TODO: Pass in something to bide our time
   # TODO: Multiple output formats. CSV, JSON, Pretty, HTML?
   highlights.each do |highlight|
     puts "#{highlight.asin};#{highlight.title};#{highlight.author};#{highlight.highlight}"
