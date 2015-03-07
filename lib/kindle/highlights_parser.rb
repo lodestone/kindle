@@ -7,9 +7,9 @@ module Kindle
 
     include Nokogiri
 
-    p Kindle::Settings
-    KINDLE_DOMAIN = Kindle::Settings.amazon_kindle_domain || 'amazon.com'
-    KINDLE_URL = "http://kindle.#{KINDLE_DOMAIN}"
+    # p Kindle::Settings
+    KINDLE_DOMAIN    = Kindle::Settings.amazon_kindle_domain || 'amazon.com'
+    KINDLE_URL       = "http://kindle.#{KINDLE_DOMAIN}"
     KINDLE_HTTPS_URL = "https://kindle.#{KINDLE_DOMAIN}"
 
     def initialize(options = {:login => nil, :password => nil})
