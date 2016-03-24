@@ -39,4 +39,4 @@ Add `FETCH_COUNT_LIMIT=5` to _.env_
 Hastily thrown together but incredibly useful since Amazon does not provide an API for kindle highlights. Please use this however you would like. This is licensed under MIT license.
 
 
-(C) 2012-2016 link:https://github.com/lodestone[Matt Petty - @lodestone]
+(C) 2012-2016 Matt Petty link:https://github.com/lodestone[@lodestone]
