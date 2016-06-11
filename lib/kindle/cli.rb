@@ -3,18 +3,19 @@ require 'highline/import'
 
 module Kindle
   class CLI < Thor
+
     desc "highlights", "Display Kindle Highlights"
     def highlights
-      puts ">> Kindle Highlights Fetcher::::::::::::::::::::::::::::::::::::::::"
+      say ">> Kindle Highlights Fetcher::::::::::::::::::::::::::::::::::::::::", :yellow
       kindle = Kindle::Account.new
-      login = kindle.settings.username
+      # login = ENV['AMAZON_USERNAME'] if ENV['AMAZON_USERNAME']
 
-      if login
-        puts "Using Amazon username: #{login}"
-      else
-        ask("Enter your Amazon username:  ") { |q| q.echo = true } unless login = argv[0]
-      end
-      passwd = ask("Enter your Amazon password (This is not stored):  ") { |q| q.echo = "•" }
+      # if login
+        # say "Using Amazon username: #{login}"
+      # else
+        login = ask("Enter your Amazon username:  ") { |q| q.echo = true }
+      # end
+      passwd = ask("Enter your Amazon password (This is not stored): ") { |q| q.echo = "•" }
 
       begin
         kindle.login = login
