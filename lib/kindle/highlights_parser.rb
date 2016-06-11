@@ -1,11 +1,8 @@
-require 'nokogiri'
 require 'mechanize'
 
 module Kindle
 
   class HighlightsParser
-
-    include Nokogiri
 
     if ENV['AMAZON_DOMAIN']
       AMAZON_DOMAIN = ENV['AMAZON_DOMAIN']
@@ -18,7 +15,7 @@ module Kindle
     def initialize(options = {:login => nil, :password => nil})
       @login       = options[:login]
       @password    = options[:password]
-      @fetch_count = 1
+      @fetched_count = 1
     end
 
     def get_highlights
@@ -36,16 +33,12 @@ module Kindle
     private
 
     def agent
-      return @agent if @agent
-      @agent = Mechanize.new
-      @agent.redirect_ok = true
-      @agent.user_agent_alias = 'Windows IE 9'
-      @agent
+      @agent ||= Kindle::Agent.new().agent
     end
 
     def get_login_page
       page = agent.get(AMAZON_KINDLE_URL)
-      page.link_with(href: "https://kindle.amazon.com/login").click
+      page.link_with(href: "/login").click
     end
 
     def login
@@ -59,13 +52,13 @@ module Kindle
 
     def fetch_highlights(page, state)
       page = get_the_first_highlight_page_from(page, state)
-      highlights = extract_highlights_from(page, state)
+      highlights = extract_highlights_from_page(page, state)
 
       begin
         page = get_the_next_page(state, highlights.flatten)
-        new_highlights = extract_highlights_from(page, state)
+        new_highlights = extract_highlights_from_page(page, state)
         highlights << new_highlights
-      end until new_highlights.length == 0 || reach_fetch_count_limit?
+      end until new_highlights.length == 0 || reached_limit?
 
       highlights.flatten
     end
@@ -86,7 +79,7 @@ module Kindle
       # end
     end
 
-    def extract_highlights_from(page, state)
+    def extract_highlights_from_page(page, state)
       return [] if page.css(".yourHighlight").length == 0
       page.css(".yourHighlight").map { |hl| parse_highlight(hl, state) }
     end
@@ -104,12 +97,10 @@ module Kindle
       asins_string    = asins.collect { |asin| "used_asins[]=#{asin}" } * '&'
       upcoming_string = state[:current_upcoming].map { |l| "upcoming_asins[]=#{l}" } * '&'
       url = "#{AMAZON_KINDLE_HTTPS_URL}/your_highlights/next_book?#{asins_string}&current_offset=#{state[:current_offset]}&#{upcoming_string}"
-      ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => "kindle.#{KINDLE_DOMAIN}" }
+      ajax_headers = { 'X-Requested-With' => 'XMLHttpRequest', 'Host' => "kindle.#{AMAZON_DOMAIN}" }
       page = agent.get(url,[],"#{AMAZON_KINDLE_HTTPS_URL}/your_highlight", ajax_headers)
-      increment_fetch_count
-
+      @fetched_count += 1
       initialize_state_with_page state, page
-
       page
     end
 
@@ -120,13 +111,9 @@ module Kindle
       Highlight.new(highlight_id, highlight, asin, state[:title], state[:author])
     end
 
-    def increment_fetch_count
-      @fetch_count += 1
-    end
-
-    def reach_fetch_count_limit?
-      return false unless Kindle::Settings.highlights_limit
-      @fetch_count >= Kindle::Settings.highlights_limit.to_i
+    def reached_limit?
+      return false unless Kindle::Highlights::Settings.fetch_limit
+      @fetched_count >= Kindle::Highlights::Settings.fetch_limit.to_i
     end
 
   end

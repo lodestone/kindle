@@ -3,7 +3,6 @@ require 'highline/import'
 
 module Kindle
   class CLI < Thor
-
     desc "highlights", "Display Kindle Highlights"
     def highlights
       say ">> Kindle Highlights Fetcher::::::::::::::::::::::::::::::::::::::::", :yellow
@@ -15,7 +14,7 @@ module Kindle
       # else
         login = ask("Enter your Amazon username:  ") { |q| q.echo = true }
       # end
-      passwd = ask("Enter your Amazon password (This is not stored): ") { |q| q.echo = "•" }
+      passwd = ask("Enter your Amazon password (This is not stored): ") { |q| q.echo = false }
 
       begin
         kindle.login = login
