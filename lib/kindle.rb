@@ -1,11 +1,12 @@
 require 'dotenv'
 require_relative 'kindle/cli'
-require_relative 'kindle/config'
+require_relative 'kindle/settings'
 require_relative 'kindle/highlight'
 require_relative 'kindle/highlights_parser'
 
 module Kindle
   class Error < StandardError; end
+  class CaptchaError < StandardError; end
   class Account
     attr_accessor :login, :password
 

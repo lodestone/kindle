@@ -6,15 +6,19 @@ module Kindle
     desc "highlights", "Display Kindle Highlights"
     def highlights
       say ">> Kindle Highlights Fetcher::::::::::::::::::::::::::::::::::::::::", :yellow
+      say "   This will access your Amazon Kindle highlights on the web.       \n", :white
+      say "   We need to have your Amazon credentials in order to get them.    \n", :white
+      say "   We don't store this anywhere! (^c to cancel)                     \n", :white
+      say ">> :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n", :yellow
       kindle = Kindle::Account.new
       # login = ENV['AMAZON_USERNAME'] if ENV['AMAZON_USERNAME']
 
       # if login
         # say "Using Amazon username: #{login}"
       # else
-        login = ask("Enter your Amazon username:  ") { |q| q.echo = true }
+      login = ask("Enter your Amazon username:  ", {echo: true})
       # end
-      passwd = ask("Enter your Amazon password (This is not stored): ") { |q| q.echo = false }
+      passwd = ask("Enter your Amazon password (This is not stored): ", {echo: false})
 
       begin
         kindle.login = login
@@ -33,6 +37,14 @@ module Kindle
     # Usage:
     # TODO: Pass in something to bide our time
     # TODO: Multiple output formats. CSV, JSON, Pretty, HTML?
+    # TODO: Cache results, add --force flag
+    # kindle hl --help
+    # kindle highlights --force --to pretty
+    # kindle highlights --force --to json
+    # kindle highlights --force --to html
+    # kindle highlights --force --to markdown
+    # kindle highlights --force --to plain
+    # kindle highlights --force --to csv
     # > kindle help
     # > kindle highlights -t json
     # > kindle highlights --type=json

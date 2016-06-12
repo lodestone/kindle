@@ -19,11 +19,10 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
   s.add_dependency "dotenv"
-  s.add_dependency "oga"
-  s.add_dependency "faraday"
+  s.add_dependency "nokogiri"
+  s.add_dependency "mechanize"
   s.add_dependency "highline"
   s.add_dependency "thor"
-  s.add_development_dependency "rspec"
-  s.add_development_dependency "vcr"
-  s.add_development_dependency "excon"
+  s.add_development_dependency "minitest"
+  # s.add_development_dependency "vcr"
 end

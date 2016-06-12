@@ -13,8 +13,8 @@ module Kindle
     AMAZON_KINDLE_HTTPS_URL = "https://kindle.#{AMAZON_DOMAIN}"
 
     def initialize(options = {:login => nil, :password => nil})
-      @login       = options[:login]
-      @password    = options[:password]
+      @login         = options[:login]
+      @password      = options[:password]
       @fetched_count = 1
     end
 
@@ -108,7 +108,7 @@ module Kindle
       highlight_id = hl.xpath('//*[@id="annotation_id"]').first["value"]
       highlight    = (hl/".highlight").text
       asin         = (hl/".asin").text
-      Highlight.new(highlight_id, highlight, asin, state[:title], state[:author])
+      Kindle::Highlight.new(highlight_id, highlight, asin, state[:title], state[:author])
     end
 
     def reached_limit?
