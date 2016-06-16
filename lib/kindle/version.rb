@@ -1,3 +1,3 @@
-module Kindle
-  VERSION = "0.3.0"
+class Kindle
+  VERSION = "0.7.0"
 end

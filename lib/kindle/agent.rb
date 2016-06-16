@@ -1,4 +1,4 @@
-module Kindle
+class Kindle
   class Agent
     def initialize()
     end

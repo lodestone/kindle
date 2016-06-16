@@ -1,22 +1,26 @@
-require 'dotenv'
+class Kindle;end
+
+require_relative 'kindle/account'
+require_relative 'kindle/agent'
+require_relative 'kindle/book'
 require_relative 'kindle/cli'
 require_relative 'kindle/settings'
 require_relative 'kindle/highlight'
 require_relative 'kindle/highlights_parser'
 
-module Kindle
-  class Error < StandardError; end
+class Kindle
+
   class CaptchaError < StandardError; end
-  class Account
-    attr_accessor :login, :password
 
-    def initialize(login=nil, password=nil)
-      @login = login || ENV['AMAZON_USERNAME']
-      @password = password || ENV['AMAZON_PASSWORD']
-    end
+  def self.settings; @settings ||= Settings.new; end
 
-    def highlights
-      @highlights = HighlightsParser.new(:login => @login, :password => @password).get_highlights
-    end
+  def initialize(options={})
+    Kindle.settings.username = options[:username] if options[:username]
+    Kindle.settings.password = options[:password] if options[:password]
   end
+
+  def highlights
+    @highlights ||= HighlightsParser.new.highlights
+  end
+
 end

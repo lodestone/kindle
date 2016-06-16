@@ -2,6 +2,15 @@
 
 :numbered!:
 
+== Version 0.7
+
+* Major Refactor
+* Allow specification of output type
+* output on the fly
+* cache results
+* handle Captcha issue
+* add proper tests via MiniTest
+
 == Version 0.2.1
 
 * Add Code of Conduct
