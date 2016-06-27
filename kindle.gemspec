@@ -22,7 +22,10 @@ Gem::Specification.new do |s|
   s.add_dependency "nokogiri"
   s.add_dependency "mechanize"
   s.add_dependency "highline"
-  s.add_dependency "thor"
-  s.add_development_dependency "minitest"
+  s.add_dependency "activerecord"
+  s.add_dependency "methadone"
+  s.add_dependency "pry"
+  s.add_development_dependency "cucumber"
+  s.add_development_dependency "aruba"
   # s.add_development_dependency "vcr"
 end

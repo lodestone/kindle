@@ -2,19 +2,18 @@ require "mechanize"
 require "nokogiri"
 require "json"
 
-class Kindle
-
+module Kindle
   class HighlightsParser
 
     attr_accessor :page, :highlights
     attr_reader :books
 
     def initialize(username=Kindle.settings.username, password=Kindle.settings.password, options={})
-      @login    = username
-      @password = password
-      @books    = []
+      @login      = username
+      @password   = password
+      @books      = []
       @highlights = []
-      @update = options[:update]
+      @update     = options[:update]
       load_highlights
     end
 
@@ -24,13 +23,10 @@ class Kindle
         fetch_highlights
         cache_initial_results
       else
-        puts "Loading from cache"
         load_initial_cache
       end
       collect_authoritative_highlights
     end
-    # alias :get_highlights :load_highlights
-
 
     def agent
       @agent ||= Kindle::Agent.new.agent
@@ -58,11 +54,6 @@ class Kindle
     def load_initial_cache
       file = File.open(cache_file, "r").read
       @books = Marshal.load(file)
-    end
-
-    def save_and_open_page
-      File.open("html.html", "w+") {|html| html << page.body }
-      %x[open html.html]
     end
 
     def login
@@ -157,5 +148,4 @@ class Kindle
     end
 
   end
-
 end

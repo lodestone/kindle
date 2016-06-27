@@ -1,6 +1,6 @@
 require "kindle"
-require 'minitest/autorun'
-require "minitest/reporters"
+# require 'minitest/autorun'
+# require "minitest/reporters"
 
 Minitest::Reporters.use!
 

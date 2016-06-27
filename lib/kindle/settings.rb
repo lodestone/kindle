@@ -1,5 +1,4 @@
-class Kindle
-
+module Kindle
   class Settings
 
     KINDLE_SETTINGS_DIRECTORY = "#{ENV["HOME"]}/.kindle/"
@@ -19,9 +18,9 @@ class Kindle
       if File.exists?(KINDLE_SETTINGS_FILENAME)
         settings = JSON.load(File.open(KINDLE_SETTINGS_FILENAME))
         if settings
-          settings.each { |name, value|
+          settings.each do |name, value|
             set_variable(name, value)
-          }
+          end
         end
       else
         File.open(KINDLE_SETTINGS_FILENAME, "w") {|f| f << default_settings_json }
@@ -43,17 +42,8 @@ JSON
     end
 
     def set_variable(name, value)
-      if value.is_a? Hash
-        value.each do |key, value|
-          set_config_variable("#{name}_#{key}", value)
-        end
-      end
-      puts "=== Setting #{name} to #{value}"
       instance_variable_set("@#{name}", ENV[name.upcase] || value)
-      self.class.class_eval { attr_reader name.intern }
-    end
-
-    def method_missing(method, *args)
+      self.class.class_eval { attr_accessor name.intern }
     end
 
   end

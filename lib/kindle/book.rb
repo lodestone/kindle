@@ -1,15 +1,20 @@
-class Kindle
-  class Book
-    attr_reader :asin, :highlight_count, :title, :author
-    attr_accessor :highlights
+module Kindle
+  class Book < ActiveRecord::Base
 
-    def initialize(asin, options = {})
-      @asin            = asin
-      @title           = options[:title]
-      @author          = options[:author]
-      @highlight_count = options[:highlight_count]
-      @highlights      = []
-    end
+    attribute :asin, :string
+    attribute :highlight_count, :integer
+    attribute :title, :string
+    attribute :author, :string
+
+    has_many :highlights
+
+    # def initialize(asin, options = {})
+    #   @asin            = asin
+    #   @title           = options[:title]
+    #   @author          = options[:author]
+    #   @highlight_count = options[:highlight_count]
+    #   @highlights      = []
+    # end
 
     # def to_csv
     #   "#{id},#{asin},#{author},#{title},#{highlight},highlight_count"

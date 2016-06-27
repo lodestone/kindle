@@ -1,4 +1,4 @@
-class Kindle
+module Kindle
   class Account
     attr_accessor :login, :password
 
