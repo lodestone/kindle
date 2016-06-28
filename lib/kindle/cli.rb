@@ -1,6 +1,6 @@
-require 'methadone'
 require_relative '../kindle'
-require 'pry'
+require "kindle"
+require 'methadone'
 
 module Kindle
   class CLI
@@ -11,14 +11,17 @@ module Kindle
     main do |command, format|
       case command
       when "init"
-        # TODO: initialize
+        require "kindle/initializer"
+        Kindle::Initializer.new
       when "highlights"
         # TODO: Highlights
       when "update"
         # TODO: update highlights
       when "console"
+        require 'pry'
         # Start interactive session
-        Pry.start nil, :prompt => [proc { "Kindle:> " }]
+        Pry.config.requires = ["kindle/highlight", "kindle/book"]
+        Pry.start self, prompt: [proc { "Kindle :) " }]
       when "help"
         # TODO: Help
       else
@@ -28,8 +31,6 @@ module Kindle
 
     arg :command
     arg :format, :optional
-
-    # TODO: --help
 
     #
     # on("highlights") do
