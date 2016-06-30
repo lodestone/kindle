@@ -12,13 +12,16 @@ require_relative 'kindle/parser/agent'
 require_relative 'kindle/parser/annotations'
 require_relative 'kindle/remote/book'
 require_relative 'kindle/remote/highlight'
+require_relative 'kindle/exports/markdown'
+require_relative 'kindle/exports/json'
+require_relative 'kindle/exports/csv'
 
 module Kindle
 
   VERSION = "0.7.0"
 
   include Models
-  
+
   # def self.settings; @settings ||= Kindle::Settings.new; end
 
   # def self.init(options={})

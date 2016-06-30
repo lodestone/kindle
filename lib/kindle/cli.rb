@@ -62,17 +62,17 @@ module Kindle
     command :highlights do |highlights|
       highlights.command :json do |json|
         json.action do
-          puts "JSON"
+          puts Kindle::Exports::Json.new(Kindle::Models::Highlight.includes(:book).all)
         end
       end
-      highlights.command :csv do |json|
-        json.action do
-          puts "TODO CSV"
+      highlights.command :csv do |csv|
+        csv.action do
+          puts Kindle::Exports::Csv.new(Kindle::Models::Highlight.includes(:book).all)
         end
       end
-      highlights.command :markdown do |json|
-        json.action do
-          puts "TODO MARKDOWN"
+      highlights.command :markdown do |markdown|
+        markdown.action do
+          puts Kindle::Exports::Markdown.new(Kindle::Models::Book.order("title ASC").all)
         end
       end
     end

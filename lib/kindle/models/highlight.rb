@@ -15,6 +15,10 @@ module Kindle
       #   {id: id, highlight: highlight, asin: asin, title: title, author: author, highlight_count: highlight_count}.to_json
       # end
 
+      # def as_json
+      #   {id: id, highlight: highlight, asin: book.asin, title: book.title, author: book.author}
+      # end
+
     end
   end
 end
