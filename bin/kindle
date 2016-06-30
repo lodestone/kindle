@@ -2,9 +2,4 @@
 require_relative "../lib/kindle"
 require_relative "../lib/kindle/cli"
 
-# Signal.trap("SIGINT") do
-#   puts "Terminating"
-#   exit 1
-# end
-
-Kindle::CLI.start(ARGV)
+# Nothing to do here...
