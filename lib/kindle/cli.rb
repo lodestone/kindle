@@ -3,8 +3,6 @@ require "pry"
 require "gli"
 require "rainbow"
 
-$:.push File.expand_path(__FILE__)
-
 module Kindle
   class CLI
     extend GLI::App
