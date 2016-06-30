@@ -7,7 +7,7 @@ module Kindle
 
     def initialize
       create_default_settings_directory unless Dir.exists?(KINDLE_SETTINGS_DIRECTORY)
-      create_default_file unless File.exists?(KINDLE_SETTINGS_FILENAME)
+      create_default_files unless File.exists?(KINDLE_SETTINGS_FILENAME)
       settings.each do |name, value|
         set_variable(name.to_s, value)
       end
@@ -29,21 +29,21 @@ module Kindle
     end
 
     def create_default_files
-      create_default_settings_files
+      # create_default_settings_files
       create_default_database_settings
     end
 
-    def create_default_settings_files
-      File.open(KINDLE_SETTINGS_FILENAME, "w") {|f| f << default_configuration_settings }
-    end
+    # def create_default_settings_files
+    #   File.open(KINDLE_SETTINGS_FILENAME, "w") {|f| f << default_configuration_settings }
+    # end
 
     def create_default_database_settings
       File.open(KINDLE_SETTINGS_FILENAME, "w") {|f| f << default_database_settings }
     end
 
-    def default_configuration_settings
-      File.open("templates/settings.yml").read
-    end
+    # def default_configuration_settings
+    #   File.open("templates/settings.yml").read
+    # end
 
     def default_database_settings
       File.open("templates/database.yml").read
