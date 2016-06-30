@@ -17,25 +17,6 @@ require_relative 'kindle/exports/json'
 require_relative 'kindle/exports/csv'
 
 module Kindle
-
   VERSION = "0.7.0"
-
   include Models
-
-  # def self.settings; @settings ||= Kindle::Settings.new; end
-
-  # def self.init(options={})
-  #   puts "init"
-  #   # ActiveRecord::Base.configurations = YAML::load(IO.read(ENV['HOME']+'/.kindle/database.yml'))
-  #   # ActiveRecord::Base.establish_connection("development")
-  #   CreateBaseStructure.migrate(:up)
-  #   Kindle.settings.username = options[:username] if options[:username]
-  #   Kindle.settings.password = options[:password] if options[:password]
-  #   self
-  # end
-
-  # def self.highlights
-  #   @highlights ||= HighlightsParser.new.highlights
-  # end
-
 end
