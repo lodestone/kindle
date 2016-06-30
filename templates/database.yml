@@ -1,6 +1,6 @@
 production:
   adapter: sqlite3
-  database: ~/.kindle/kindle-database.sqlite
+  database: ~/.kindle/kindle.db
 
 development:
   adapter: sqlite3
