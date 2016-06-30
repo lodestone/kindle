@@ -60,22 +60,38 @@ module Kindle
       Output your highlights in JSON, CSV, or Markdown format
     }
     command :highlights do |highlights|
+
+      highlights.desc "Refresh the database of highlights"
+      highlights.long_desc "Scrape your current Kindle highlights and update the local database"
+      highlights.command :update do |update|
+        update.action do
+          puts "TODO: UPDATING"
+        end
+      end
+
+      highlights.desc "Export highlights and books as JSON"
       highlights.command :json do |json|
         json.action do
           puts Kindle::Exports::Json.new(Kindle::Models::Highlight.includes(:book).all)
         end
       end
+
+      highlights.desc "Export highlights and books as CSV"
       highlights.command :csv do |csv|
         csv.action do
           puts Kindle::Exports::Csv.new(Kindle::Models::Highlight.includes(:book).all)
         end
       end
+
+      highlights.desc "Export highlights and books as Markdown"
       highlights.command :markdown do |markdown|
         markdown.action do
           puts Kindle::Exports::Markdown.new(Kindle::Models::Book.order("title ASC").all)
         end
       end
     end
+
     exit run(ARGV)
+
   end
 end
