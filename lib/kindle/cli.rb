@@ -90,6 +90,7 @@ module Kindle
       end
     end
 
+    # NOTE: Fuckery to hide the auto generated actions:
     helpcmd = commands[:help]
     helpcmd.instance_variable_set("@description", Rainbow(helpcmd.instance_variable_get("@description")).yellow)
     commands[:initconfig].instance_variable_set("@description", nil)
