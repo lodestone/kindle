@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "kindle"
+require_relative "lib/kindle"
 
 Gem::Specification.new do |s|
   s.name        = "kindle"
@@ -18,15 +18,4 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
-  s.add_dependency "dotenv"
-  s.add_dependency "nokogiri"
-  s.add_dependency "mechanize"
-  s.add_dependency "highline"
-  s.add_dependency "activerecord", "5.0.0.rc2"
-  s.add_dependency "sqlite3"
-  s.add_dependency "methadone"
-  s.add_dependency "pry"
-  s.add_development_dependency "cucumber"
-  s.add_development_dependency "aruba"
-  # s.add_development_dependency "vcr"
 end

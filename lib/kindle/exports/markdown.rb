@@ -1,6 +1,6 @@
 module Kindle
   module Exports
-    class MarkdownDocument
+    class Markdown
       def initialize()
         @document = ""
       end

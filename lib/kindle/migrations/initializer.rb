@@ -1,5 +1,4 @@
-require_relative "../kindle"
-require_relative "migrations/base_migration"
+require_relative "base_migration"
 
 module Kindle
   module Migrations

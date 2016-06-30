@@ -1,14 +1,15 @@
 require "mechanize"
 require "nokogiri"
 require "json"
-require "kindle/remote/highlight"
-require "kindle/remote/book"
-require "kindle/models/highlight"
-require "kindle/models/book"
+require_relative "agent"
+require_relative "../remote/highlight"
+require_relative "../remote/book"
+require_relative "../models/highlight"
+require_relative "../models/book"
 
 module Kindle
   module Parser
-    class Amazon
+    class Annotations
 
       attr_accessor :page, :highlights
       attr_reader :books
@@ -138,7 +139,7 @@ module Kindle
         state[:current_offset] = (highlights_on_page.collect{|h| h.attributes['id'].value }).first.split('_').last
         highlight_count = (highlights_on_page/".highlightCount#{state[:current_asin]}").text.to_i
         state[:current_number_of_highlights] = highlight_count
-        @books << Kindle::Amazon::Book.new(state[:current_asin], {author: state[:author], title: state[:title], highlight_count: highlight_count})
+        @books << Kindle::Remote::Book.new(state[:current_asin], {author: state[:author], title: state[:title], highlight_count: highlight_count})
       end
 
       def get_the_next_page(state, previously_extracted_highlights = [])
@@ -157,7 +158,7 @@ module Kindle
         highlight_text = (hl/".highlight").text
         asin           = (hl/".asin").text
         highlight_count = (hl/".highlightCount#{asin}").text
-        highlight = Kindle::Amazon::Highlight.new(amazon_id: highlight_id, highlight: highlight_text, asin: asin)
+        highlight = Kindle::Remote::Highlight.new(amazon_id: highlight_id, highlight: highlight_text, asin: asin)
         highlight
       end
 

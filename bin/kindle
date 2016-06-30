@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require_relative "../lib/kindle"
+require_relative "../lib/kindle/cli"
 
 # Signal.trap("SIGINT") do
 #   puts "Terminating"

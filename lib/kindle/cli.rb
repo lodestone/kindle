@@ -1,5 +1,7 @@
 require_relative '../kindle'
 require 'methadone'
+require "pry"
+$:.push File.expand_path(__FILE__)
 
 module Kindle
   class CLI
@@ -7,20 +9,28 @@ module Kindle
     include Methadone::Main
     include Methadone::CLILogging
 
+    description "Fetch and query your Amazon Kindle Highlights"
+    defaults_from_config_file ENV["HOME"] + "/.kindle/settings.yml"
+    
     main do |command, format|
       case command
       when "init"
-        require "kindle/initializer"
-        Kindle::Initializer.new
+        require_relative "migrations/initializer"
+        Kindle::Migrations::Initializer.new
       when "highlights"
+        puts format
+        # TODO
       when "update"
         require "kindle/settings"
-        require "kindle/highlights_parser"
-        Kindle::HighlightsParser.new
+        require "kindle/parser/annotations"
+        Kindle::Parser::Annotations.new
       when "console"
-        require "pry"
-        # Start interactive session
-        Pry.config.requires = ["kindle/highlight", "kindle/book", "kindle/settings", "kindle/highlights_parser"]
+        # Pry.config.requires = [
+        #   "kindle/models/highlight",
+        #   "kindle/models/book",
+        #   "kindle/settings",
+        #   "kindle/parser/annotations"
+        # ]
         Pry.start Kindle, prompt: [proc { "Kindle :) " }]
       when "help"
         # TODO: Help
@@ -54,10 +64,10 @@ module Kindle
     #   kindle.highlights
     # end
 
-    on("console") do
+    # on("console") do
       # IRB.start
-    end
-
+    # end
+    version(Kindle::VERSION)
     go!
   end
 end
