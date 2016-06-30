@@ -1,6 +1,7 @@
 require_relative "../kindle"
 require "pry"
 require "gli"
+require "rainbow"
 
 $:.push File.expand_path(__FILE__)
 
@@ -11,7 +12,7 @@ module Kindle
 
     config_file ".kindle/kindlerc.yml"
 
-    program_desc "Fetch and query your Amazon Kindle Highlights"
+    program_desc Rainbow("Fetch and query your Amazon Kindle Highlights").cyan
     version Kindle::VERSION
 
     flag [:u, :username]
@@ -47,10 +48,10 @@ module Kindle
     command :initdb do |c|
       c.action do |global_options, options, args|
         begin
-          puts "\nInitializing the database..."
+          puts Rainbow("\nInitializing the database...").green
           Kindle::Migrations::Initializer.new
         rescue ActiveRecord::StatementInvalid
-          puts "Looks like the database is already created, skipping..."
+          puts Rainbow("Looks like the database is already created, skipping...").red
         end
       end
     end
