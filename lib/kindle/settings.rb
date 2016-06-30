@@ -15,21 +15,9 @@ module Kindle
 
     def url
       # TODO Handle this
-      "https://kindle.#{d}" rescue "Please set \"domain\" in your settings file!"
+      "https://kindle.#{domain}" rescue "Please set \"domain\" in your settings file!"
     end
 
-    def domain
-      d
-    end
-
-    def username
-      u
-    end
-
-    def password
-      p
-    end
-    
     private
 
     def settings
