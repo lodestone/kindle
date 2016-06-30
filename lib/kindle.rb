@@ -1,8 +1,4 @@
 require "active_record"
-
-ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: "#{ENV['HOME']}/.kindle/database.sqlite3")
-
-# require_relative 'kindle/cli'
 require_relative 'kindle/settings'
 require_relative "kindle/migrations/initializer"
 require_relative "kindle/migrations/base_migration"
@@ -15,6 +11,8 @@ require_relative 'kindle/remote/highlight'
 require_relative 'kindle/exports/markdown'
 require_relative 'kindle/exports/json'
 require_relative 'kindle/exports/csv'
+
+ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: Kindle::Settings::KINDLE_DATABASE_FILENAME)
 
 module Kindle
   VERSION = "0.7.0"

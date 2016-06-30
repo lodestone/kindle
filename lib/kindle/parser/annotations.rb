@@ -39,8 +39,8 @@ module Kindle
       def login
         @page = agent.get(SETTINGS.url + "/login")
         login_form = page.forms.first
-        login_form.email    = username
-        login_form.password = password
+        login_form.email    = @username
+        login_form.password = @password
         @page = login_form.submit
       end
 
