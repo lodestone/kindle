@@ -3,11 +3,34 @@ require "pry"
 require "gli"
 require "rainbow"
 
+# TODO: Create a pull request for this monkey patch:
+module GLI
+  module AppSupport
+    def parse_config # :nodoc:
+      config = {
+        'commands' => {},
+      }
+      if @config_file && File.exist?(@config_file)
+        require 'yaml'
+        yaml = YAML.load(File.open(@config_file).read)
+        config.merge!(yaml||{})
+      end
+      config
+    end
+  end
+end
+
 module Kindle
   class CLI
     extend GLI::App
 
     sort_help :manually
+
+    # SETTINGS_FILE = "#{ENV['HOME']}/.kindle/kindlerc.yml"
+    # if File.open(SETTINGS_FILE).read.empty?
+    #   File.delete(SETTINGS_FILE)
+    # end
+
     config_file ".kindle/kindlerc.yml"
     program_desc Rainbow("Fetch and query your Amazon Kindle Highlights").cyan
     version Kindle::VERSION

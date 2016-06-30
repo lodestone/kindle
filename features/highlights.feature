@@ -11,6 +11,13 @@ Feature: Kindle Highlights
     kindle [global options] command [command options] [arguments...]
     """
 
+  Scenario: When calling help
+    Given I successfully run `kindle help`
+    Then the output should contain:
+    """
+    kindle [global options] command [command options] [arguments...]
+    """
+
   Scenario: `kindle init`
     Given an empty file named "~/.kindle/kindlerc.yml"
     And an empty file named "~/.kindle/database.yml"
