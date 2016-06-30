@@ -5,7 +5,7 @@ module Kindle
       def initialize(options = {})
         @highlight = options[:highlight]
         @amazon_id = options[:amazon_id]
-        @asin = options[:asin]
+        @asin      = options[:asin]
       end
     end
   end
