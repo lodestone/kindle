@@ -2,43 +2,48 @@ module Kindle
   class Settings
 
     KINDLE_SETTINGS_DIRECTORY = "#{ENV["HOME"]}/.kindle/"
-    KINDLE_SETTINGS_FILENAME = "#{KINDLE_SETTINGS_DIRECTORY}/settings.json"
-
-    def url
-      "https://kindle.#{Kindle.settings.domain}"
-    end
+    KINDLE_SETTINGS_FILENAME = "#{KINDLE_SETTINGS_DIRECTORY}/settings.yml"
+    KINDLE_DATABASE_FILENAME = "#{KINDLE_SETTINGS_DIRECTORY}/database.yml"
 
     def initialize
-      # Check settings directory
-      if !Dir.exists?(KINDLE_SETTINGS_DIRECTORY)
-        Dir.mkdir(KINDLE_SETTINGS_DIRECTORY)
-      end
-
-      # Check the kindle settings file exists, create it if needed
-      if File.exists?(KINDLE_SETTINGS_FILENAME)
-        settings = JSON.load(File.open(KINDLE_SETTINGS_FILENAME))
-        if settings
-          settings.each do |name, value|
-            set_variable(name, value)
-          end
-        end
-      else
-        File.open(KINDLE_SETTINGS_FILENAME, "w") {|f| f << default_settings_json }
+      create_default_settings_directory unless Dir.exists?(KINDLE_SETTINGS_DIRECTORY)
+      create_default_file unless File.exists?(KINDLE_SETTINGS_FILENAME)
+      settings.each do |name, value|
+        set_variable(name, value)
       end
     end
 
-    def credentials?
-      Kindle.settings.username && Kindle.settings.password
+    def url
+      "https://kindle.#{domain}" rescue "Please set \"domain\" in your settings file!"
     end
 
-    private
+    def settings
+      @settings ||= (YAML.load(File.open(KINDLE_SETTINGS_FILENAME))||{})
+    end
 
-    def default_settings_json
-<<-JSON
-{
-  "domain": "amazon.com"
-}
-JSON
+    def create_default_settings_directory
+      Dir.mkdir KINDLE_SETTINGS_DIRECTORY
+    end
+
+    def create_default_files
+      create_default_settings_files
+      create_default_database_settings
+    end
+
+    def create_default_settings_files
+      File.open(KINDLE_SETTINGS_FILENAME, "w") {|f| f << default_configuration_settings }
+    end
+
+    def create_default_database_settings
+      File.open(KINDLE_SETTINGS_FILENAME, "w") {|f| f << default_database_settings }
+    end
+
+    def default_configuration_settings
+      File.open("templates/settings.yml").read
+    end
+
+    def default_database_settings
+      File.open("templates/database.yml").read
     end
 
     def set_variable(name, value)

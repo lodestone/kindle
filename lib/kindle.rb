@@ -2,20 +2,20 @@ require "active_record"
 
 ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: "#{ENV['HOME']}/.kindle/database.sqlite3")
 
-require_relative 'kindle/account'
-require_relative 'kindle/agent'
-require_relative 'kindle/book'
 require_relative 'kindle/cli'
 require_relative 'kindle/settings'
-require_relative 'kindle/highlight'
-require_relative 'kindle/highlights_parser'
-require_relative "kindle/version"
-require_relative "kindle/initializer"
-require_relative "kindle/migrate/base_migration"
+require_relative "kindle/migrations/initializer"
+require_relative "kindle/migrations/base_migration"
+require_relative 'kindle/models/highlight'
+require_relative 'kindle/models/book'
+require_relative 'kindle/parser/agent'
+require_relative 'kindle/parser/amazon'
+require_relative 'kindle/remote/book'
+require_relative 'kindle/remote/highlight'
 
 module Kindle
-
-  def self.settings; @settings ||= Kindle::Settings.new; end
+  VERSION = "0.7.0"
+  # def self.settings; @settings ||= Kindle::Settings.new; end
 
   # def self.init(options={})
   #   puts "init"

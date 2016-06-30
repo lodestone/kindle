@@ -1,14 +1,11 @@
 production:
-  adapter: sqlite
-  database: kindle
-  file: ~/.kindle/database.sqlite
+  adapter: sqlite3
+  database: ~/.kindle/kindle-database.sqlite
 
 development:
-  adapter: sqlite
-  database: kindle
-  file: ~/.kindle/database-dev.sqlite
+  adapter: sqlite3
+  database: ~/.kindle/database-dev.sqlite
 
 test:
-  adapter: sqlite
-  database: kindle
-  file: ~/.kindle/database-test.sqlite
+  adapter: sqlite3
+  database: ~/.kindle/database-test.sqlite

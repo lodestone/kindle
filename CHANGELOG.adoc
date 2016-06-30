@@ -4,17 +4,19 @@
 
 == Version 0.7
 
-* Major Refactor
+* Major refactor and feature additions
+
+Features:
+
 * Allow specification of output type
-* output on the fly
 * cache results
 * handle Captcha issue
-* add proper tests via MiniTest
+* add proper tests via MiniTest and Cucumber
 
 == Version 0.2.1
 
 * Add Code of Conduct
-* Use Asciidoc for files (README, COC, CHANGELOG)
+* Use Asciidoc for files (README, CODE_OF_CONDUCT, CHANGELOG)
 
 == Version 0.1.2
 

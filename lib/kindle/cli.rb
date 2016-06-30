@@ -1,5 +1,4 @@
 require_relative '../kindle'
-require "kindle"
 require 'methadone'
 
 module Kindle
@@ -14,14 +13,15 @@ module Kindle
         require "kindle/initializer"
         Kindle::Initializer.new
       when "highlights"
-        # TODO: Highlights
       when "update"
-        # TODO: update highlights
+        require "kindle/settings"
+        require "kindle/highlights_parser"
+        Kindle::HighlightsParser.new
       when "console"
-        require 'pry'
+        require "pry"
         # Start interactive session
-        Pry.config.requires = ["kindle/highlight", "kindle/book"]
-        Pry.start self, prompt: [proc { "Kindle :) " }]
+        Pry.config.requires = ["kindle/highlight", "kindle/book", "kindle/settings", "kindle/highlights_parser"]
+        Pry.start Kindle, prompt: [proc { "Kindle :) " }]
       when "help"
         # TODO: Help
       else

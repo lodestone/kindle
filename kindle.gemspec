@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "kindle/version"
+require "kindle"
 
 Gem::Specification.new do |s|
   s.name        = "kindle"
@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Matt Petty"]
   s.email       = ["matt@kizmeta.com"]
   s.homepage    = "https://github.com/lodestone/kindle"
-  s.summary     = %q{Manage your kindle highlights with ruby}
-  s.description = %q{Manage your kindle highlights with ruby}
+  s.summary     = %q{Manage your kindle highlights with ruby, output in JSON, Markdown, and CSV formats}
+  s.description = %q{Manage your Amazon Kindle highlights: Sync and cache to an ActiveRecord database and output in various formats}
 
   s.rubyforge_project = "kindle"
 

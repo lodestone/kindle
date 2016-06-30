@@ -1,4 +1,3 @@
-kindle:
-  :amazon_username:
-  :amazon_password:
-  :amazon_domain:
+username: matt@kizmeta.com
+password: asdf
+domain: kindle.amazon.com
