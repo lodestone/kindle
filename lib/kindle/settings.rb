@@ -2,23 +2,36 @@ module Kindle
   class Settings
 
     KINDLE_SETTINGS_DIRECTORY = "#{ENV["HOME"]}/.kindle/"
-    KINDLE_SETTINGS_FILENAME = "#{KINDLE_SETTINGS_DIRECTORY}/settings.yml"
+    KINDLE_SETTINGS_FILENAME = "#{KINDLE_SETTINGS_DIRECTORY}/kindlerc.yml"
     KINDLE_DATABASE_FILENAME = "#{KINDLE_SETTINGS_DIRECTORY}/database.yml"
 
     def initialize
       create_default_settings_directory unless Dir.exists?(KINDLE_SETTINGS_DIRECTORY)
       create_default_file unless File.exists?(KINDLE_SETTINGS_FILENAME)
       settings.each do |name, value|
-        set_variable(name, value)
+        set_variable(name.to_s, value)
       end
     end
 
     def url
-      "https://kindle.#{domain}" rescue "Please set \"domain\" in your settings file!"
+      # TODO Handle this
+      "https://kindle.#{d}" rescue "Please set \"domain\" in your settings file!"
     end
 
-    private
+    def domain
+      d
+    end
+
+    def username
+      u
+    end
+
+    def password
+      p
+    end
     
+    private
+
     def settings
       @settings ||= (YAML.load(File.open(KINDLE_SETTINGS_FILENAME))||{})
     end

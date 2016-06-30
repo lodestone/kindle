@@ -16,9 +16,9 @@ module Kindle
 
     hide_commands_without_desc true
 
-    flag [:u, :username]
-    flag [:p, :password]
-    flag [:d, :domain], default_value: "amazon.com"
+    flag [:username, :u]
+    flag [:password, :p]
+    flag [:domain,   :d], default_value: "amazon.com"
 
     # NOTE: Commenting out these descriptions to *hide* the option from help
     # desc "Initialize the highlights database"
@@ -54,7 +54,6 @@ module Kindle
       highlights.long_desc "Scrape your current Kindle highlights and update the local database"
       highlights.command :update do |update|
         update.action do
-          puts "TODO: UPDATING"
           Kindle::Parser::Annotations.new
         end
       end
@@ -95,7 +94,7 @@ module Kindle
     helpcmd.instance_variable_set("@description", Rainbow(helpcmd.instance_variable_get("@description")).yellow)
     commands[:initconfig].instance_variable_set("@description", nil)
     commands[:initconfig].instance_variable_set("@hide_commands_without_desc", true)
-    # binding.pry
+
     exit run(ARGV)
 
   end

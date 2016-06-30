@@ -16,9 +16,9 @@ module Kindle
       attr_accessor :page, :highlights
       attr_reader :books
 
-      def initialize(username=SETTINGS.username, password=SETTINGS.password, options={})
-        @login      = username
-        @password   = password
+      def initialize(options={})
+        @username   = SETTINGS.username || options[:username]
+        @password   = SETTINGS.password || options[:password]
         @books      = []
         @highlights = []
         load_highlights
@@ -30,44 +30,52 @@ module Kindle
         collect_authoritative_highlights
       end
 
+      private
+
       def agent
         @agent ||= Kindle::Parser::Agent.new.agent
       end
 
-      private
-
       def login
         @page = agent.get(SETTINGS.url + "/login")
         login_form = page.forms.first
-        login_form.email    = @login
-        login_form.password = @password
+        login_form.email    = username
+        login_form.password = password
         @page = login_form.submit
-        # if page.css("#ap_captcha_img")
-        #   puts "CAPTCHA LOGIN ERROR"
-        #   save_and_open_page
-        #   # p page.link_with(text: /See a new challenge/).resolved_uri.to_s
-        #   agent.cookie_jar.save("cookies.txt", format: :cookiestxt)
-        # end
-        # save_and_open_page
-        # rescue => exception
-        # end
       end
 
+      # TODO: Handle CAPTCHA
+      # def handle_captcha
+      #   if page.css("#ap_captcha_img")
+      #     puts "CAPTCHA LOGIN ERROR"
+      #     save_and_open_page
+      #     p page.link_with(text: /See a new challenge/).resolved_uri.to_s
+      #     agent.cookie_jar.save("cookies.txt", format: :cookiestxt)
+      #   end
+      #   save_and_open_page
+      #   rescue => exception
+      #   end
+      # end
+
       def collect_authoritative_highlights
-        puts "collecting authoritative highlights"
+        # NOTE: This fetch may fail if the highlight count is realy large.
         books.each do |book|
-          kb = Kindle::Book.find_or_create_by(asin: book.asin, title: book.title, author: book.author, highlight_count: book.highlight_count)
-          url = "https://kindle.amazon.com/kcw/highlights?asin=#{book.asin}&cursor=0&count=#{book.highlight_count}"
+          kb = Kindle::Book.find_or_create_by(asin: book.asin, title: book.title, author: book.author)
+          if kb.highlight_count != book.highlight_count
+            kb.highlight_count = book.highlight_count
+            kb.save!
+          end
+          url = "#{SETTINGS.url}/kcw/highlights?asin=#{book.asin}&cursor=0&count=#{book.highlight_count}"
           bpage = agent.get url
           items = JSON.parse(bpage.body).fetch("items", [])
           book.highlights = items.map do |item|
-            kb.highlights.create! amazon_id: item["embeddedId"], highlight: item["highlight"]
+            kb.highlights.find_or_create_by(highlight: item["highlight"])
+            # TODO: FIXME: amazon_id: item["embeddedId"]
           end
         end
       end
 
       def fetch_highlights(state={current_upcoming: [], asins: []})
-        puts "Fetching highlights..."
         page = agent.get("#{SETTINGS.url}/your_highlights")
         initialize_state_with_page state, page
         highlights = extract_highlights_from_page(page, state)
