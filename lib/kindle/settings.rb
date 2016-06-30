@@ -17,6 +17,8 @@ module Kindle
       "https://kindle.#{domain}" rescue "Please set \"domain\" in your settings file!"
     end
 
+    private
+    
     def settings
       @settings ||= (YAML.load(File.open(KINDLE_SETTINGS_FILENAME))||{})
     end
