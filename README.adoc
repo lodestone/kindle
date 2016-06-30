@@ -1,4 +1,4 @@
-= Kindle Highlights Fetcher
+= Kindle Highlights for the Command Line
 :author: Matt Petty
 :copyright: 2016
 
@@ -12,6 +12,6 @@
 
     kindle
 
-== Other usage and license
+== Credits
 
 (C) 2012-2016 Matt Petty link:https://github.com/lodestone[@lodestone]
