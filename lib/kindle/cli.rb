@@ -1,46 +1,110 @@
-require_relative '../kindle'
-require 'methadone'
+require_relative "../kindle"
 require "pry"
+require "gli"
+
 $:.push File.expand_path(__FILE__)
 
 module Kindle
   class CLI
 
-    include Methadone::Main
-    include Methadone::CLILogging
+    extend GLI::App
 
-    description "Fetch and query your Amazon Kindle Highlights"
-    defaults_from_config_file ENV["HOME"] + "/.kindle/settings.yml"
-    
-    main do |command, format|
-      case command
-      when "init"
-        require_relative "migrations/initializer"
-        Kindle::Migrations::Initializer.new
-      when "highlights"
-        puts format
-        # TODO
-      when "update"
-        require "kindle/settings"
-        require "kindle/parser/annotations"
-        Kindle::Parser::Annotations.new
-      when "console"
-        # Pry.config.requires = [
-        #   "kindle/models/highlight",
-        #   "kindle/models/book",
-        #   "kindle/settings",
-        #   "kindle/parser/annotations"
-        # ]
+    config_file ".kindle/kindlerc.yml"
+
+    program_desc "Fetch and query your Amazon Kindle Highlights"
+    version Kindle::VERSION
+
+    flag [:u, :username]
+    flag [:p, :password]
+    flag [:d, :domain], default_value: "amazon.com"
+
+    desc "Open an interactive console"
+    long_desc %{
+      Open an interactive console with both Book and Highlight objects available.
+    }
+    command :console do |c|
+      c.action do |global_options,options,args|
         Pry.start Kindle, prompt: [proc { "Kindle :) " }]
-      when "help"
-        # TODO: Help
-      else
-        # TODO: Display help
       end
     end
 
-    arg :command
-    arg :format, :optional
+    desc "Alias for initdb followed by initconfig commands"
+    long_desc %{
+      Creates the ~/.kindle/kindle.db SQLITE file
+      Creates the ~/.kindle directory and a default config file
+    }
+    command :init do |c|
+      c.action do |global_options, options, args|
+        commands[:initdb].execute(global_options, options, args)
+        commands[:initconfig].execute(global_options, options, args)
+      end
+    end
+
+    desc "Initialize the highlights database"
+    long_desc %{
+      Creates a SQLITE3 database to store/cache your highlights
+    }
+    command :initdb do |c|
+      c.action do |global_options, options, args|
+        begin
+          puts "\nInitializing the database..."
+          Kindle::Migrations::Initializer.new
+        rescue ActiveRecord::StatementInvalid
+          puts "Looks like the database is already created, skipping..."
+        end
+      end
+    end
+
+    desc "Export Highlights"
+    long_desc %{
+      Output your highlights in JSON, CSV, or Markdown format
+    }
+    command :highlights do |highlights|
+      highlights.command :json do |json|
+        json.action do
+          puts "JSON"
+        end
+      end
+      highlights.command :csv do |json|
+        json.action do
+          puts "TODO CSV"
+        end
+      end
+      highlights.command :markdown do |json|
+        json.action do
+          puts "TODO MARKDOWN"
+        end
+      end
+    end
+    # main do |command, format|
+    #   case command
+    #   when "init"
+    #     require_relative "migrations/initializer"
+    #     Kindle::Migrations::Initializer.new
+    #   when "highlights"
+    #     puts format
+    #     # TODO
+    #   when "update"
+    #     require "kindle/settings"
+    #     require "kindle/parser/annotations"
+    #     Kindle::Parser::Annotations.new
+    #   when "console"
+    #     # Pry.config.requires = [
+    #     #   "kindle/models/highlight",
+    #     #   "kindle/models/book",
+    #     #   "kindle/settings",
+    #     #   "kindle/parser/annotations"
+    #     # ]
+    #     Pry.start Kindle, prompt: [proc { "Kindle :) " }]
+    #   when "help"
+    #     # TODO: Help
+    #   else
+    #     # TODO: Display help
+    #   end
+    # end
+    #
+    # arg :command
+    # arg :format, :optional
 
     #
     # on("highlights") do
@@ -67,8 +131,9 @@ module Kindle
     # on("console") do
       # IRB.start
     # end
-    version(Kindle::VERSION)
-    go!
+    # version(Kindle::VERSION)
+    # go!
+    exit run(ARGV)
   end
 end
 
