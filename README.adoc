@@ -4,14 +4,122 @@
 
 :numbered!:
 
+
 == Installation
 
-    gem install kindle
+```
+gem install kindle
+```
 
-== Usage
+There are a lot of dependencies (including the latest Rails ActiveRecord v5), as this app is intended to provide a lot of conveniences and functionality over other lighter link:https://github.com/speric/kindle-highlights[libraries]. We :heart: u @speric!
 
-    kindle
+== Usage:
 
-== Credits
+=== Warnings and Caveats (HACKER ALERT)
+
+image::http://i.perezhilton.com/wp-content/uploads/2014/12/hackers.gif[]
+
+Let's talk about passwords and security. Using the kindle command line app gives you the convenience to save your Amazon credentials in a file on your computer. This is probably bad. **Don't do it**. You've been warned.
+
+Hax0rz *will* hack.
+
+If, however, you intend to keep your password out of the settings file, you'll need to pass in the `--password=<secret>` argument every time. **Again: Be Forewarned**: Your shell is probably configured by default to save a history of what you type in. For that reason, you should be using something like the `zsh` option link:http://zsh.sourceforge.net/Doc/Release/Options.html[`HIST_IGNORE_SPACE`] to _"hide"_ your most-secretest commands.
+
+---
+
+=== Step 1: Initialization
+
+==== kindle init
+
+First you need to initialize the app with some default and/or customized settings, as well as create the database to store your highlights.
+
+To initialize and save your password and username:
+
+```
+# Option 1
+kindle --username=change@your.email \
+       --password=yoursecret \
+       init
+```
+
+**OR**
+
+To initialize with just a username:
+
+```
+# Option 2
+kindle --username=change@your.email init
+```
+
+**OR**
+
+Just run the `init` sub-command without any parameters, knowing you will just have to pass them in later. Every time.
+
+```
+# Option 3
+kindle init
+```
+
+
+---
+
+=== Step 2: Fetch your data
+
+==== kindle update
+
+The `update` sub-command uses either the passed in credentials or the saved credentials in the settings file and reaches out to Amazon's Kindle highlights website. It slurps all the highlights (and book info) and saves it in a SQLite3 database in `~/.kindle`.
+
+```
+kindle update
+```
+
+The `update` command will take a while to run, depending on how many highlights you have. Don't worry if it doesn't seem to do anything. That's okay. Trust in the UNIX-way.
+
+---
+
+=== Step 3: Output your data
+
+==== kindle highlights
+
+The `highlights` sub-command requires a third command to generate the appropriate output. Currently the available output formats are: JSON, CSV, and Markdown.
+
+Example with JSON:
+
+```
+# Output in json format and redirect to highlights.json file
+kindle highlights json > highlights.json
+```
+
+Example with CSV:
+
+
+```
+# Output in csv format and redirect to highlights.csv file
+kindle highlights csv > highlights.csv
+```
+
+Example with Markdown:
+
+```
+# Output in markdown format and redirect to highlights.md file
+kindle highlights markdown > highlights.md
+```
+
+---
+
+== Advanced Topic: The Console
+
+image::http://link.nx.is/1hbw6.png[]
+
+I've also included a `console` command for those of you familiar with Ruby on Rails, irb, etc. Issuing the `kindle console` command will open a console session with two ActiveRecord objects: `Book` and `Highlight`. These are real ActiveRecord v5.0 models pointing to the database of highlights.
+
+kindle console:
+
+```
+kindle console
+```
+
+
+== Endcap
 
 (C) 2012-2016 Matt Petty link:https://github.com/lodestone[@lodestone]
