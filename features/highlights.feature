@@ -46,17 +46,72 @@ Feature: Kindle Highlights
       :console: {}
     """
     When I run `kindle highlights json`
-    Then the output should contain:
+    Then the output should match:
     """
-    "Reach for enlightenment"
+    [.*\"Reach for enlightenment".*"Zen".*]
     """
-    And the output should contain:
-    """
-    "Zen"
-    """
+    And the features should all pass
 
   Scenario: `kindle highlights csv`
+    Given time is frozen
+    And a database exists
+    And a file named "~/.kindle/kindlerc.yml" with:
+    """
+    ---
+    :version: false
+    :help: false
+    :username: me@my.email
+    :password: secret
+    :domain: amazon.com
+    commands:
+      :_doc: {}
+      :initdb: {}
+      :init: {}
+      :highlights:
+        commands:
+          :update: {}
+          :json: {}
+          :csv: {}
+          :markdown: {}
+      :console: {}
+    """
+    When I run `kindle highlights csv`
+    Then the output should match:
+    """
+    .*"Reach for enlightenment","Zen",.*
+    """
+    And the features should all pass
 
   Scenario: `kindle highlights markdown`
+    Given time is frozen
+    And a database exists
+    And a file named "~/.kindle/kindlerc.yml" with:
+    """
+    ---
+    :version: false
+    :help: false
+    :username: me@my.email
+    :password: secret
+    :domain: amazon.com
+    commands:
+      :_doc: {}
+      :initdb: {}
+      :init: {}
+      :highlights:
+        commands:
+          :update: {}
+          :json: {}
+          :csv: {}
+          :markdown: {}
+      :console: {}
+    """
+    When I run `kindle highlights markdown`
+    Then the output should match:
+    """    
+    ### Zen by Monk
+
+    > Reach for enlightenment
+    """
+    And the features should all pass
 
   Scenario: `kindle console`
