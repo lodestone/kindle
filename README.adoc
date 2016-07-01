@@ -4,7 +4,9 @@
 
 :numbered!:
 
-image::http://link.nx.is/sWdP.png[]
++++
+<img src="http://link.nx.is/sWdP.png" style="float:right;width:40%" />
++++
 
 == What is this?
 
@@ -17,6 +19,7 @@ The kindle command empowers you to actually _DO_ something with all those highli
 **Specifically, you can:**
 
 * scrape and parse your kindle highlights and book data
+* keep your highlights stored _**locally**_
 * output in JSON format
 * output in CSV format
 * output in Markdown format
