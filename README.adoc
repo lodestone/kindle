@@ -20,7 +20,7 @@ There are a lot of dependencies (including the latest Rails ActiveRecord v5), as
 
 === Warnings and Caveats (HACKER ALERT)
 
-image::http://i.perezhilton.com/wp-content/uploads/2014/12/hackers.gif[]
+image::http://i.perezhilton.com/wp-content/uploads/2014/12/hackers.gif[width="100%"]
 
 Let's talk about passwords and security. Using the kindle command line app gives you the convenience to save your Amazon credentials in a file on your computer. This is probably bad. **Don't do it**. You've been warned.
 
@@ -116,7 +116,7 @@ image::http://link.nx.is/1hbw6.png[]
 
 I've also included a `console` command for those of you familiar with Ruby on Rails, irb, etc. Issuing the `kindle console` command will open a console session with two ActiveRecord objects: `Book` and `Highlight`. These are real ActiveRecord v5.0 models pointing to the database of highlights.
 
-image:http://link.nx.is/Qesb.png[kindle console]
+image:http://link.nx.is/Qesb.png[width="100%"]
 
 `kindle console` examples:
 
