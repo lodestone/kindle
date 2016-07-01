@@ -11,4 +11,6 @@ gem "pry"
 group :test, :development do
   gem "cucumber", '~> 2'
   gem "aruba"
+  gem "timecop"
+  gem 'cucumber-timecop', require: false
 end

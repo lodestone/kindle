@@ -6,13 +6,13 @@
 
 == What is this?
 
-The kindle app gives **YOU** your kindle highlights without the poor interface Amazon has wrapped around _YOUR DATA_.
+The kindle highlights app gives **YOU** your kindle highlights without the poor interface Amazon has wrapped around _YOUR DATA_.
 
-The kindle command line app empowers you to actually _DO_ something with all those highlights you've been making on your Kindle and Kindle apps. The app downloads and caches your highlights. You can then get them in various formats like JSON, CSV, and a nice little Markdown format to run through pandoc or Marked app.
+The kindle command empowers you to actually _DO_ something with all those highlights you've been making on your Kindle and Kindle apps. The app downloads and caches your highlights. You can then get them in various formats like JSON, CSV, and a nice little Markdown format to run through pandoc or Marked app.
 
 **Specifically, you can:**
 
-* scrape and parse your highlights and book data
+* scrape and parse your kindle highlights and book data
 * output in JSON format
 * output in CSV format
 * output in Markdown format

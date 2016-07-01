@@ -19,14 +19,13 @@ Feature: Kindle Highlights
     """
 
   Scenario: `kindle init`
-    Given an empty file named "~/.kindle/kindlerc.yml"
-    And an empty file named "~/.kindle/database.yml"
-    When I run `kindle --username=me@my.email --password=secret init`
-    Then the output should contain:
-    """
-    blah
-    """
-    Then the file named "~/.kindle/kindlerc.yml" should contain:
+
+  Scenario: `kindle update`
+
+  Scenario: `kindle highlights json` should do something
+    Given time is frozen
+    And a database exists
+    And a file named "~/.kindle/kindlerc.yml" with:
     """
     ---
     :version: false
@@ -45,26 +44,16 @@ Feature: Kindle Highlights
           :csv: {}
           :markdown: {}
       :console: {}
-
     """
-    # And the file named "~/.kindle/database.yml" should contain:
-    # """
-    # """
-
-  Scenario: `kindle update`
-    # Given an empty file named "~/.kindle/settings.json"
-
-  Scenario: `kindle highlights` should do something
-    Given an empty file named "~/.kindle/settings.json"
-    When I run `kindle highlights`
-    And I type "hello, world"
-    And I type "quit"
+    When I run `kindle highlights json`
     Then the output should contain:
     """
-    dog
+    "Reach for enlightenment"
     """
-
-  Scenario: `kindle highlights json`
+    And the output should contain:
+    """
+    "Zen"
+    """
 
   Scenario: `kindle highlights csv`
 
