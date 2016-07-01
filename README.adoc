@@ -6,7 +6,7 @@
 
 == TODO: Description
 
-TODO
+// TODO. What is this and why do you want to use it?
 
 == Installation
 
@@ -14,7 +14,7 @@ TODO
 gem install kindle
 ```
 
-There are a lot of dependencies (including the latest Rails ActiveRecord v5), as this app is intended to provide a lot of conveniences and functionality over other lighter link:https://github.com/speric/kindle-highlights[libraries]. We :heart: u @speric!
+There are a lot of dependencies (including the latest Rails ActiveRecord v5), as this app is intended to provide a lot of conveniences and functionality over other lighter link:https://github.com/speric/kindle-highlights[libraries] like from our friend link:https://github.com/speric[@speric]! :heart:
 
 == Usage:
 
@@ -38,7 +38,7 @@ First you need to initialize the app with some default and/or customized setting
 
 To initialize and save your password and username:
 
-```
+```sh
 # Option 1
 kindle --username=change@your.email \
        --password=yoursecret \
@@ -49,7 +49,7 @@ kindle --username=change@your.email \
 
 To initialize with just a username:
 
-```
+```sh
 # Option 2
 kindle --username=change@your.email init
 ```
@@ -58,7 +58,7 @@ kindle --username=change@your.email init
 
 Just run the `init` sub-command without any parameters, knowing you will just have to pass them in later. Every time.
 
-```
+```sh
 # Option 3
 kindle init
 ```
@@ -72,7 +72,7 @@ kindle init
 
 The `update` sub-command uses either the passed in credentials or the saved credentials in the settings file and reaches out to Amazon's Kindle highlights website. It slurps all the highlights (and book info) and saves it in a SQLite3 database in `~/.kindle`.
 
-```
+```sh
 kindle update
 ```
 
@@ -88,7 +88,7 @@ The `highlights` sub-command requires a third command to generate the appropriat
 
 Example with JSON:
 
-```
+```sh
 # Output in json format and redirect to highlights.json file
 kindle highlights json > highlights.json
 ```
@@ -96,14 +96,14 @@ kindle highlights json > highlights.json
 Example with CSV:
 
 
-```
+```sh
 # Output in csv format and redirect to highlights.csv file
 kindle highlights csv > highlights.csv
 ```
 
 Example with Markdown:
 
-```
+```sh
 # Output in markdown format and redirect to highlights.md file
 kindle highlights markdown > highlights.md
 ```
@@ -116,13 +116,43 @@ image::http://link.nx.is/1hbw6.png[]
 
 I've also included a `console` command for those of you familiar with Ruby on Rails, irb, etc. Issuing the `kindle console` command will open a console session with two ActiveRecord objects: `Book` and `Highlight`. These are real ActiveRecord v5.0 models pointing to the database of highlights.
 
-kindle console:
+image:http://link.nx.is/Qesb.png[kindle console]
 
-```
-kindle console
+`kindle console` examples:
+
+```ruby
+
+Kindle :) Book.count
+=> 45
+
+Kindle :) Highlight.count
+=> 587
+
+Kindle :) Highlight.first
+=> #<Kindle::Models::Highlight:0x007fd43a50ae90
+ id: 1,
+ highlight: "riparian",
+ amazon_id: nil,
+ book_id: 1,
+ created_at: 2016-07-01 00:18:32 UTC,
+ updated_at: 2016-07-01 00:18:32 UTC>
+
+Kindle :) Book.first
+=> #<Kindle::Models::Book:0x007fd43a591800
+ id: 1,
+ asin: "B004J4WN0I",
+ title: "Hounded (with two bonus short stories): The Iron Druid Chronicles, Book One",
+ author: "by Kevin Hearne",
+ highlight_count: 8,
+ created_at: 2016-07-01 00:18:32 UTC,
+ updated_at: 2016-07-01 00:18:32 UTC>
+
 ```
 
 
 == Endcap
+
+In case you are too lazy to open the LICENSE file, just FYI this is all MIT licensed.
+
 
 (C) 2012-2016 Matt Petty link:https://github.com/lodestone[@lodestone]

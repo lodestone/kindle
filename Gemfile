@@ -2,7 +2,7 @@ source "http://rubygems.org"
 
 gem "gli"
 gem "sqlite3"
-gem "activerecord", "5.0.0.rc2"
+gem "activerecord", "~>5.0.0"
 gem "nokogiri"
 gem "mechanize"
 gem "rainbow"
