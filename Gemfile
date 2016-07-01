@@ -8,7 +8,7 @@ gem "mechanize"
 gem "rainbow"
 gem "pry"
 
-group :test do
+group :test, :development do
   gem "cucumber", '~> 2'
   gem "aruba"
 end

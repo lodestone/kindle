@@ -3,13 +3,12 @@ require "pry"
 require "gli"
 require "rainbow"
 
-# TODO: Create a pull request for this monkey patch:
+# TODO: Create a test and pull request for this monkey patch
+#  that handles an empty file without blowing up.
 module GLI
   module AppSupport
     def parse_config # :nodoc:
-      config = {
-        'commands' => {},
-      }
+      config = { 'commands' => {} }
       if @config_file && File.exist?(@config_file)
         require 'yaml'
         yaml = YAML.load(File.open(@config_file).read)
@@ -25,17 +24,10 @@ module Kindle
     extend GLI::App
 
     sort_help :manually
-
-    # SETTINGS_FILE = "#{ENV['HOME']}/.kindle/kindlerc.yml"
-    # if File.open(SETTINGS_FILE).read.empty?
-    #   File.delete(SETTINGS_FILE)
-    # end
-
+    version Kindle::VERSION
+    hide_commands_without_desc true
     config_file ".kindle/kindlerc.yml"
     program_desc Rainbow("Fetch and query your Amazon Kindle Highlights").cyan
-    version Kindle::VERSION
-
-    hide_commands_without_desc true
 
     flag [:username, :u]
     flag [:password, :p]
