@@ -119,10 +119,11 @@ module Kindle
       end
 
       def parse_highlight(hl, state)
-        highlight_id   = hl.xpath('//*[@id="annotation_id"]').first["value"]
+        # TODO: highlight_id
+        # highlight_id   = hl.xpath('//*[@id="annotation_id"]').first["value"]
         highlight_text = (hl/".highlight").text
         asin           = (hl/".asin").text
-        highlight = Kindle::Remote::Highlight.new(amazon_id: highlight_id, highlight: highlight_text, asin: asin)
+        highlight = Kindle::Remote::Highlight.new(highlight: highlight_text, asin: asin)
         highlight
       end
     end
