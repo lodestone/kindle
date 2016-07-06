@@ -18,4 +18,11 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
+  s.add_runtime_dependency  = "gli"
+  s.add_runtime_dependency  = "sqlite3"
+  s.add_runtime_dependency  = "activerecord", "~>5.0.0"
+  s.add_runtime_dependency  = "nokogiri"
+  s.add_runtime_dependency  = "mechanize"
+  s.add_runtime_dependency  = "rainbow"
+  s.add_runtime_dependency  = "pry""
 end

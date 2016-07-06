@@ -64,9 +64,7 @@ To initialize and save your password and username:
 
 ```sh
 # Option 1
-kindle --username=change@your.email \
-       --password=yoursecret \
-       init
+kindle --username=change@your.email --password=yoursecret init
 ```
 
 **OR**
