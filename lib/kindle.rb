@@ -16,6 +16,6 @@ require_relative "kindle/exports/csv"
 ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: Kindle::Settings::KINDLE_DATABASE_FILENAME)
 
 module Kindle
-  VERSION = "0.7.0.beta"
+  VERSION = "0.7.0.beta2"
   include Models
 end
