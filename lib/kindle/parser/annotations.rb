@@ -71,7 +71,15 @@ module Kindle
             kb.save!
           end
           url = "#{SETTINGS.url}/kcw/highlights?asin=#{book.asin}&cursor=0&count=#{book.highlight_count}"
-          bpage = agent.get url
+          begin
+            bpage = agent.get url
+          rescue Net::HTTPInternalServerError => ex
+            if ENV['GLI_DEBUG']
+              puts ex
+              puts "Working on :#{kb.inspect} and #{book.inspect}"
+            end
+            next
+          end
           items = JSON.parse(bpage.body).fetch("items", [])
           book.highlights = items.map do |item|
             kb.highlights.find_or_create_by(highlight: item["highlight"])
