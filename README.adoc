@@ -1,5 +1,5 @@
 = Kindle Highlights for the Command Line
-:author: Matt Petty
+:author: Matt Petty <matt@kizmeta.com>
 :copyright: 2016
 
 :numbered!:

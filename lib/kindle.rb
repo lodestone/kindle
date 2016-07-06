@@ -12,9 +12,10 @@ require_relative "kindle/exports/markdown"
 require_relative "kindle/exports/json"
 require_relative "kindle/exports/csv"
 
+# TODO: Handle multiple environments
 ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: Kindle::Settings::KINDLE_DATABASE_FILENAME)
 
 module Kindle
-  VERSION = "0.7.0"
+  VERSION = "0.7.0.beta"
   include Models
 end
