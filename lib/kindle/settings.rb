@@ -3,7 +3,7 @@ module Kindle
 
     KINDLE_SETTINGS_DIRECTORY = "#{ENV["HOME"]}/.kindle"
     KINDLE_SETTINGS_FILENAME  = "#{KINDLE_SETTINGS_DIRECTORY}/kindlerc.yml"
-    KINDLE_DATABASE_FILENAME  = "#{KINDLE_SETTINGS_DIRECTORY}/database.yml"
+    # KINDLE_DATABASE_FILENAME  = "#{KINDLE_SETTINGS_DIRECTORY}/database.yml"
 
     attr_reader :settings
 
@@ -31,28 +31,27 @@ module Kindle
     end
 
     def create_default_files
-      create_default_database_settings
+      # create_default_database_settings
     end
 
     def create_default_database_settings
-      File.open(KINDLE_SETTINGS_FILENAME, "w") {|f| f << default_database_settings }
+      # File.open(KINDLE_SETTINGS_FILENAME, "w") {|f| f << default_database_settings }
     end
 
     def default_database_settings
-      # File.open("templates/database.yml").read
-      <<~EOF
-      production:
-        adapter: sqlite3
-        database: ~/.kindle/kindle.db
-
-      development:
-        adapter: sqlite3
-        database: ~/.kindle/database-dev.sqlite
-
-      test:
-        adapter: sqlite3
-        database: ~/.kindle/database-test.sqlite
-      EOF
+      # <<~EOF
+      # production:
+      #   adapter: sqlite3
+      #   database: ~/.kindle/kindle.db
+      #
+      # development:
+      #   adapter: sqlite3
+      #   database: ~/.kindle/database-dev.sqlite
+      #
+      # test:
+      #   adapter: sqlite3
+      #   database: ~/.kindle/database-test.sqlite
+      # EOF
     end
 
     def set_variable(name, value)
