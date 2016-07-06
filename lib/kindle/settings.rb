@@ -31,7 +31,12 @@ module Kindle
     end
 
     def create_default_files
+      create_default_kindle_settings
       create_default_database_settings
+    end
+
+    def create_default_kindle_settings
+      `touch #{KINDLE_SETTINGS_FILENAME}`
     end
 
     def create_default_database_settings
