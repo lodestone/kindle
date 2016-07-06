@@ -39,7 +39,20 @@ module Kindle
     end
 
     def default_database_settings
-      File.open("templates/database.yml").read
+      # File.open("templates/database.yml").read
+      <<~EOF
+      production:
+        adapter: sqlite3
+        database: ~/.kindle/kindle.db
+
+      development:
+        adapter: sqlite3
+        database: ~/.kindle/database-dev.sqlite
+
+      test:
+        adapter: sqlite3
+        database: ~/.kindle/database-test.sqlite
+      EOF
     end
 
     def set_variable(name, value)
