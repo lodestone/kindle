@@ -60,6 +60,7 @@ module Kindle
       def collect_authoritative_highlights
         # NOTE: This fetch may fail if the highlight count is realy large.
         books.each do |book|
+          next if kb.highlight_count == 0
           kb = Kindle::Book.find_or_create_by(asin: book.asin, title: book.title, author: book.author)
           if kb.highlight_count != book.highlight_count
             kb.highlight_count = book.highlight_count

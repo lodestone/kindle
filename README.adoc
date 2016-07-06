@@ -64,7 +64,7 @@ To initialize and save your password and username:
 
 ```sh
 # Option 1
-kindle --username=change@your.email --password=yoursecret init
+kindle --username="change@your.email" --password="yoursecret" init
 ```
 
 **OR**
@@ -73,7 +73,7 @@ To initialize with just a username:
 
 ```sh
 # Option 2
-kindle --username=change@your.email init
+kindle --username="change@your.email" init
 ```
 
 **OR**
@@ -90,12 +90,12 @@ kindle init
 
 === Step 2: Fetch your data
 
-==== kindle update
+==== kindle highlights update
 
 The `update` sub-command uses either the passed in credentials or the saved credentials in the settings file and reaches out to Amazon's Kindle highlights website. It slurps all the highlights (and book info) and saves it in a SQLite3 database in `~/.kindle`.
 
 ```sh
-kindle update
+kindle highlights update
 ```
 
 The `update` command will take a while to run, depending on how many highlights you have. Don't worry if it doesn't seem to do anything. That's okay. Trust in the UNIX-way.
@@ -106,7 +106,7 @@ The `update` command will take a while to run, depending on how many highlights 
 
 ==== kindle highlights
 
-The `highlights` sub-command requires a third command to generate the appropriate output. Currently the available output formats are: JSON, CSV, and Markdown.
+The `highlights` command requires a sub-command to generate the appropriate output. Currently the available output formats are: JSON, CSV, and Markdown.
 
 Example with JSON:
 
