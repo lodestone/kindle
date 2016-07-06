@@ -41,7 +41,8 @@ module Kindle
         begin
           puts Rainbow("\nInitializing the database...").green
           Kindle::Migrations::Initializer.new
-        rescue ActiveRecord::StatementInvalid
+        rescue ActiveRecord::StatementInvalid => ex
+          puts ex
           puts Rainbow("Looks like the database is already created, skipping...").red
         end
       end
