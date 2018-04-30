@@ -4,6 +4,8 @@
 
 :numbered!:
 
+NOTE: THIS IS NOT WORKING CURRENTLY, AS AMAZON CHANGED THEIR SITE
+
 +++
 <img src="http://link.nx.is/sWdP.png" style="float:right;width:40%" />
 +++
